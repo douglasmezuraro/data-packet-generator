@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Datasnap.DBClient, Vcl.Grids, Vcl.DBGrids,
-  Vcl.ExtCtrls, Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.StdCtrls, System.TypInfo;
+  Vcl.ExtCtrls, Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.StdCtrls, System.TypInfo,
+  XMLDoc, XMLIntf;
 
 type
   TMain = class(TForm)
@@ -43,6 +44,7 @@ type
     procedure ActionExportDataExecute(Sender: TObject);
     procedure ActionClearExecute(Sender: TObject);
     procedure ActionCopyToClipboardExecute(Sender: TObject);
+    procedure PageControlChange(Sender: TObject);
   private
     procedure Initialize;
     procedure PopulateDataSetFieldTypes;
@@ -53,6 +55,7 @@ type
     procedure ControlPages;
     procedure CopyToClipboard;
     procedure NextPage(const Proc: TProc);
+    function FormatXML(const XML: string): string;
   end;
 
 implementation
@@ -114,6 +117,7 @@ end;
 procedure TMain.ControlPages;
 begin
   PageControl.ActivePage := TabSheetFields;
+  ControlButtons;
 end;
 
 procedure TMain.CopyToClipboard;
@@ -147,17 +151,21 @@ end;
 
 procedure TMain.ExportData;
 var
-  Stream: TMemoryStream;
+  Stream: TStringStream;
 begin
-  Stream := TMemoryStream.Create;
+  MemoXML.Clear;
+  Stream := TStringStream.Create;
   try
     DataSetData.SaveToStream(Stream, dfXML);
-    Stream.Position := 0;
-
-    MemoXML.Lines.LoadFromStream(Stream);
+    MemoXML.Lines.Add(FormatXML(Stream.DataString));
   finally
     Stream.Free;
   end;
+end;
+
+function TMain.FormatXML(const XML: string): string;
+begin
+  Result := XmlDoc.FormatXMLData(XML);
 end;
 
 procedure TMain.NextPage(const Proc: TProc);
@@ -185,6 +193,11 @@ begin
   PopulateDataSetFieldTypes;
   ControlButtons;
   ControlPages;
+end;
+
+procedure TMain.PageControlChange(Sender: TObject);
+begin
+  ControlButtons;
 end;
 
 procedure TMain.PopulateDataSetFieldTypes;

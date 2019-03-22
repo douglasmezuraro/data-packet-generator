@@ -24,6 +24,7 @@ object Main: TMain
     ActivePage = TabSheetFields
     Align = alClient
     TabOrder = 0
+    OnChange = PageControlChange
     object TabSheetFields: TTabSheet
       Caption = 'Fields'
       object GridFields: TDBGrid
@@ -91,11 +92,13 @@ object Main: TMain
         Width = 911
         Height = 442
         Align = alClient
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Courier New'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 0
-        ExplicitLeft = 240
-        ExplicitTop = 142
-        ExplicitWidth = 185
-        ExplicitHeight = 89
       end
     end
   end
@@ -133,7 +136,6 @@ object Main: TMain
       Action = ActionClear
       Align = alRight
       TabOrder = 2
-      ExplicitLeft = 201
     end
     object ButtonCopyToClipboard: TButton
       Left = 201
@@ -143,9 +145,6 @@ object Main: TMain
       Action = ActionCopyToClipboard
       Align = alLeft
       TabOrder = 3
-      ExplicitLeft = 338
-      ExplicitTop = 18
-      ExplicitHeight = 25
     end
   end
   object DataSourceFields: TDataSource
