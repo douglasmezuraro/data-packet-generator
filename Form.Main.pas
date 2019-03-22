@@ -34,16 +34,25 @@ type
     ActionExportData: TAction;
     ActionClear: TAction;
     ButtonClear: TButton;
+    TabSheetXML: TTabSheet;
+    MemoXML: TMemo;
+    ButtonCopyToClipboard: TButton;
+    ActionCopyToClipboard: TAction;
     procedure FormShow(Sender: TObject);
     procedure ActionCreateDataSetExecute(Sender: TObject);
     procedure ActionExportDataExecute(Sender: TObject);
     procedure ActionClearExecute(Sender: TObject);
+    procedure ActionCopyToClipboardExecute(Sender: TObject);
   private
     procedure Initialize;
     procedure PopulateDataSetFieldTypes;
     procedure CreateDataSet;
     procedure ExportData;
     procedure Clear;
+    procedure ControlButtons;
+    procedure ControlPages;
+    procedure CopyToClipboard;
+    procedure NextPage(const Proc: TProc);
   end;
 
 implementation
@@ -55,6 +64,11 @@ begin
   Clear;
 end;
 
+procedure TMain.ActionCopyToClipboardExecute(Sender: TObject);
+begin
+  CopyToClipboard;
+end;
+
 procedure TMain.ActionCreateDataSetExecute(Sender: TObject);
 begin
   if DataSetFields.IsEmpty then
@@ -63,9 +77,7 @@ begin
     Exit;
   end;
 
-  CreateDataSet;
-  TabSheetData.TabVisible := True;
-  PageControl.ActivePage := TabSheetData;
+  NextPage(CreateDataSet);
 end;
 
 procedure TMain.ActionExportDataExecute(Sender: TObject);
@@ -76,7 +88,7 @@ begin
     Exit;
   end;
 
-  ExportData;
+  NextPage(ExportData);
 end;
 
 procedure TMain.Clear;
@@ -88,6 +100,26 @@ begin
     DataSetData.EmptyDataSet;
     DataSetData.FieldDefs.Clear;
   end;
+
+  MemoXML.Clear;
+end;
+
+procedure TMain.ControlButtons;
+begin
+  ButtonCreateDataSet.Visible   := PageControl.ActivePage = TabSheetFields;
+  ButtonExportData.Visible      := PageControl.ActivePage = TabSheetData;
+  ButtonCopyToClipboard.Visible := PageControl.ActivePage = TabSheetXML;
+end;
+
+procedure TMain.ControlPages;
+begin
+  PageControl.ActivePage := TabSheetFields;
+end;
+
+procedure TMain.CopyToClipboard;
+begin
+  MemoXML.SelectAll;
+  MemoXML.CopyToClipboard;
 end;
 
 procedure TMain.CreateDataSet;
@@ -105,25 +137,42 @@ begin
     DataSetFields.Next;
   end;
 
+  if DataSetData.Active then
+    DataSetData.Close;
   DataSetData.CreateDataSet;
+  DataSetData.LogChanges := False;
+
   GridData.Columns.RebuildColumns;
 end;
 
 procedure TMain.ExportData;
 var
-  Dialog: TSaveDialog;
+  Stream: TMemoryStream;
 begin
-  Dialog := TSaveDialog.Create(Self);
+  Stream := TMemoryStream.Create;
   try
-    Dialog.InitialDir := GetCurrentDir;
-    Dialog.Filter := 'Data file|*.xml';
-    Dialog.DefaultExt := 'xml';
+    DataSetData.SaveToStream(Stream, dfXML);
+    Stream.Position := 0;
 
-    if Dialog.Execute then
-      DataSetData.SaveToFile(Dialog.FileName, dfXML);
+    MemoXML.Lines.LoadFromStream(Stream);
   finally
-    Dialog.Free;
+    Stream.Free;
   end;
+end;
+
+procedure TMain.NextPage(const Proc: TProc);
+var
+  Index: Integer;
+begin
+  Proc;
+
+  Index := PageControl.ActivePageIndex;
+  if PageControl.ActivePageIndex < PageControl.PageCount then
+    Inc(Index);
+
+  PageControl.ActivePageIndex := Index;
+
+  ControlButtons;
 end;
 
 procedure TMain.FormShow(Sender: TObject);
@@ -134,8 +183,8 @@ end;
 procedure TMain.Initialize;
 begin
   PopulateDataSetFieldTypes;
-  PageControl.ActivePage := TabSheetFields;
-  TabSheetData.TabVisible := False;
+  ControlButtons;
+  ControlPages;
 end;
 
 procedure TMain.PopulateDataSetFieldTypes;
@@ -150,3 +199,4 @@ begin
 end;
 
 end.
+

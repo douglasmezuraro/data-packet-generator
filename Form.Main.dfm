@@ -24,10 +24,8 @@ object Main: TMain
     ActivePage = TabSheetFields
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 477
     object TabSheetFields: TTabSheet
       Caption = 'Fields'
-      ExplicitHeight = 449
       object GridFields: TDBGrid
         Left = 0
         Top = 0
@@ -70,7 +68,6 @@ object Main: TMain
     end
     object TabSheetData: TTabSheet
       Caption = 'Data'
-      ExplicitHeight = 449
       object GridData: TDBGrid
         Left = 0
         Top = 0
@@ -84,6 +81,21 @@ object Main: TMain
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+      end
+    end
+    object TabSheetXML: TTabSheet
+      Caption = 'XML'
+      object MemoXML: TMemo
+        Left = 0
+        Top = 0
+        Width = 911
+        Height = 442
+        Align = alClient
+        TabOrder = 0
+        ExplicitLeft = 240
+        ExplicitTop = 142
+        ExplicitWidth = 185
+        ExplicitHeight = 89
       end
     end
   end
@@ -103,7 +115,6 @@ object Main: TMain
       Align = alLeft
       Caption = 'Create &DataSet'
       TabOrder = 0
-      ExplicitHeight = 45
     end
     object ButtonExportData: TButton
       Left = 101
@@ -115,22 +126,32 @@ object Main: TMain
       TabOrder = 1
     end
     object ButtonClear: TButton
-      Left = 201
+      Left = 818
       Top = 1
       Width = 100
       Height = 46
       Action = ActionClear
-      Align = alLeft
+      Align = alRight
       TabOrder = 2
-      ExplicitLeft = 218
-      ExplicitTop = 10
+      ExplicitLeft = 201
+    end
+    object ButtonCopyToClipboard: TButton
+      Left = 201
+      Top = 1
+      Width = 100
+      Height = 46
+      Action = ActionCopyToClipboard
+      Align = alLeft
+      TabOrder = 3
+      ExplicitLeft = 338
+      ExplicitTop = 18
       ExplicitHeight = 25
     end
   end
   object DataSourceFields: TDataSource
     DataSet = DataSetFields
-    Left = 38
-    Top = 52
+    Left = 42
+    Top = 174
   end
   object DataSetFields: TClientDataSet
     PersistDataPacket.Data = {
@@ -140,8 +161,8 @@ object Main: TMain
     Active = True
     Aggregates = <>
     Params = <>
-    Left = 110
-    Top = 50
+    Left = 95
+    Top = 121
     object FieldName: TStringField
       FieldName = 'Name'
       Size = 80
@@ -165,8 +186,8 @@ object Main: TMain
     end
   end
   object ActionList: TActionList
-    Left = 470
-    Top = 152
+    Left = 42
+    Top = 68
     object ActionCreateDataSet: TAction
       Caption = '&Create DataSet'
       OnExecute = ActionCreateDataSetExecute
@@ -179,6 +200,10 @@ object Main: TMain
       Caption = '&Clear'
       OnExecute = ActionClearExecute
     end
+    object ActionCopyToClipboard: TAction
+      Caption = 'Co&py to clipboard'
+      OnExecute = ActionCopyToClipboardExecute
+    end
   end
   object DataSetFieldTypes: TClientDataSet
     PersistDataPacket.Data = {
@@ -188,8 +213,8 @@ object Main: TMain
     Active = True
     Aggregates = <>
     Params = <>
-    Left = 122
-    Top = 120
+    Left = 95
+    Top = 68
     object FieldAAAAType: TIntegerField
       FieldName = 'Type'
     end
@@ -200,18 +225,18 @@ object Main: TMain
   end
   object DataSourceFieldTypes: TDataSource
     DataSet = DataSetFieldTypes
-    Left = 34
-    Top = 120
+    Left = 95
+    Top = 174
   end
   object DataSetData: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 110
-    Top = 174
+    Left = 42
+    Top = 121
   end
   object DataSourceData: TDataSource
     DataSet = DataSetData
-    Left = 30
-    Top = 176
+    Left = 42
+    Top = 227
   end
 end
