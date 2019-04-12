@@ -21,7 +21,7 @@ object Main: TMain
     Top = 0
     Width = 919
     Height = 470
-    ActivePage = TabSheetFields
+    ActivePage = TabSheetData
     Align = alClient
     TabOrder = 0
     OnChange = PageControlChange
@@ -69,14 +69,35 @@ object Main: TMain
     end
     object TabSheetData: TTabSheet
       Caption = 'Data'
-      object GridData: TDBGrid
+      ExplicitLeft = 7
+      ExplicitTop = 23
+      object Panel1: TPanel
         Left = 0
         Top = 0
         Width = 911
-        Height = 442
+        Height = 49
+        Align = alTop
+        TabOrder = 0
+        object EditConstante: TLabeledEdit
+          Left = 14
+          Top = 20
+          Width = 283
+          Height = 21
+          EditLabel.Width = 93
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Nome da constante'
+          EditLabel.Layout = tlCenter
+          TabOrder = 0
+        end
+      end
+      object GridData: TDBGrid
+        Left = 0
+        Top = 49
+        Width = 911
+        Height = 393
         Align = alClient
         DataSource = DataSourceData
-        TabOrder = 0
+        TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
@@ -86,6 +107,7 @@ object Main: TMain
     end
     object TabSheetXML: TTabSheet
       Caption = 'XML'
+      ExplicitTop = 23
       object MemoXML: TMemo
         Left = 0
         Top = 0
@@ -99,6 +121,8 @@ object Main: TMain
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        ExplicitLeft = 36
+        ExplicitTop = 146
       end
     end
   end
@@ -149,8 +173,8 @@ object Main: TMain
   end
   object DataSourceFields: TDataSource
     DataSet = DataSetFields
-    Left = 42
-    Top = 174
+    Left = 536
+    Top = 160
   end
   object DataSetFields: TClientDataSet
     PersistDataPacket.Data = {
@@ -160,8 +184,8 @@ object Main: TMain
     Active = True
     Aggregates = <>
     Params = <>
-    Left = 95
-    Top = 121
+    Left = 409
+    Top = 205
     object FieldName: TStringField
       FieldName = 'Name'
       Size = 80
@@ -185,8 +209,8 @@ object Main: TMain
     end
   end
   object ActionList: TActionList
-    Left = 42
-    Top = 68
+    Left = 334
+    Top = 128
     object ActionCreateDataSet: TAction
       Caption = '&Create DataSet'
       OnExecute = ActionCreateDataSetExecute
@@ -212,8 +236,8 @@ object Main: TMain
     Active = True
     Aggregates = <>
     Params = <>
-    Left = 95
-    Top = 68
+    Left = 431
+    Top = 124
     object FieldAAAAType: TIntegerField
       FieldName = 'Type'
     end
@@ -224,18 +248,18 @@ object Main: TMain
   end
   object DataSourceFieldTypes: TDataSource
     DataSet = DataSetFieldTypes
-    Left = 95
-    Top = 174
+    Left = 411
+    Top = 284
   end
   object DataSetData: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 42
-    Top = 121
+    Left = 592
+    Top = 115
   end
   object DataSourceData: TDataSource
     DataSet = DataSetData
-    Left = 42
-    Top = 227
+    Left = 524
+    Top = 245
   end
 end

@@ -27,7 +27,6 @@ type
     FieldDataSetFieldsType: TIntegerField;
     FieldDataSetFieldsTypeName: TStringField;
     TabSheetData: TTabSheet;
-    GridData: TDBGrid;
     DataSetData: TClientDataSet;
     DataSourceData: TDataSource;
     ButtonCreateDataSet: TButton;
@@ -36,9 +35,12 @@ type
     ActionClear: TAction;
     ButtonClear: TButton;
     TabSheetXML: TTabSheet;
-    MemoXML: TMemo;
     ButtonCopyToClipboard: TButton;
     ActionCopyToClipboard: TAction;
+    MemoXML: TMemo;
+    Panel1: TPanel;
+    GridData: TDBGrid;
+    EditConstante: TLabeledEdit;
     procedure FormShow(Sender: TObject);
     procedure ActionCreateDataSetExecute(Sender: TObject);
     procedure ActionExportDataExecute(Sender: TObject);
@@ -56,6 +58,7 @@ type
     procedure CopyToClipboard;
     procedure NextPage(const Proc: TProc);
     function FormatXML(const XML: string): string;
+    procedure FormatXMLToDelphiStringPattern;
   end;
 
 implementation
@@ -158,9 +161,34 @@ begin
   try
     DataSetData.SaveToStream(Stream, dfXML);
     MemoXML.Lines.Add(FormatXML(Stream.DataString));
+    FormatXMLToDelphiStringPattern;
   finally
     Stream.Free;
   end;
+end;
+
+procedure TMain.FormatXMLToDelphiStringPattern;
+const
+  Delimiter: array[Boolean] of string = ('+', ';');
+  Tab = '  ';
+var
+  Constant: string;
+  Index: Integer;
+  Eof: Boolean;
+begin
+  Constant := EditConstante.Text;
+
+  if Constant.Trim.IsEmpty then
+    Exit;
+
+  MemoXML.Lines.Delete(Pred(MemoXML.Lines.Count));
+  for Index := 0 to Pred(MemoXML.Lines.Count) do
+  begin
+    Eof := Index = Pred(MemoXML.Lines.Count);
+    MemoXML.Lines.Strings[Index] := Tab + QuotedStr(MemoXML.Lines.Strings[Index]) + Delimiter[Eof];
+  end;
+
+  MemoXML.Lines.Insert(0, Constant + ' = ');
 end;
 
 function TMain.FormatXML(const XML: string): string;
