@@ -14,12 +14,15 @@ var
   Main: TMain;
 
 begin
-  ReportMemoryLeaksOnShutdown := True;
-
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.Title := 'Data Packet Generator';
+
   TStyleManager.TrySetStyle('Smokey Quartz Kamri');
+
   Application.CreateForm(TMain, Main);
   Application.CreateForm(TDataModuleDM, DataModuleDM);
   Application.Run;
+
+  ReportMemoryLeaksOnShutdown := True;
 end.

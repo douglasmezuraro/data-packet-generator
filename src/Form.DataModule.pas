@@ -6,6 +6,7 @@ uses
   Datasnap.DBClient,
   Data.DB,
   System.Classes,
+  System.SysUtils,
   System.TypInfo;
 
 type
@@ -30,6 +31,7 @@ type
     constructor Create(Owner: TComponent); override;
     procedure Clear;
     procedure CreateData;
+    function Validate(out Message: string): Boolean;
     property Data: TClientDataSet read GetData;
     property Fields: TClientDataSet read GetFields;
   end;
@@ -43,7 +45,7 @@ implementation
 
 {$R *.dfm}
 
-{ TDataModule1 }
+{ TDataModuleDM }
 
 function TDataModuleDM.GetData: TClientDataSet;
 begin
@@ -108,6 +110,56 @@ begin
     DataSetTypes.InsertRecord([Index, GetEnumName(TypeInfo(TFieldType), Index)]);
   end;
 end;
+
+function TDataModuleDM.Validate(out Message: string): Boolean;
+const
+  StringType = [ftString, ftWideString, ftFixedChar, ftFixedWideChar];
+begin
+  Result := False;
+
+  if Fields.IsEmpty then
+  begin
+    Message := 'Não existem definições de campos.';
+    Exit;
+  end;
+
+  Fields.First;
+  while not Fields.Eof do
+  begin
+    if Fields['Name'] = string.Empty then
+    begin
+      Message := Format('O campo de indíce %d está com o nome vazio.', [Fields.RecNo]);
+      Exit;
+    end;
+
+    if Fields.FieldByName('Size').IsNull then
+    begin
+      if TFieldType(Fields['TypeId']) in StringType then
+      begin
+        begin
+          Message := Format('O campo "%s" esta com a propriedade "Size" indefinida.', [DataModuleDM.Fields['Name']]);
+          Exit;
+        end;
+      end;
+    end;
+
+    if not Fields.FieldByName('Size').IsNull then
+    begin
+      if not (TFieldType(Fields['TypeId']) in StringType) then
+      begin
+        begin
+          Message := Format('O campo "%s" esta com a propriedade "Size" definida desnecessariamente.', [DataModuleDM.Fields['Name']]);
+          Exit;
+        end;
+      end;
+    end;
+
+    Fields.Next;
+  end;
+
+  Result := True;
+end;
+
 
 end.
 

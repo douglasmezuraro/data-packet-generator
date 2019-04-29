@@ -1,7 +1,7 @@
 object DataModuleDM: TDataModuleDM
   OldCreateOrder = False
-  Height = 442
-  Width = 732
+  Height = 171
+  Width = 327
   object DataSetTypes: TClientDataSet
     Aggregates = <>
     Params = <>

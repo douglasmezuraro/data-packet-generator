@@ -27,10 +27,6 @@ object Main: TMain
     OnChange = PageControlChange
     object TabSheetFields: TTabSheet
       Caption = '1 - Fields'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GridFields: TDBGrid
         Left = 0
         Top = 0
@@ -73,10 +69,6 @@ object Main: TMain
     end
     object TabSheetData: TTabSheet
       Caption = '2 - Data'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object PanelConstant: TPanel
         Left = 0
         Top = 0
@@ -113,10 +105,6 @@ object Main: TMain
     end
     object TabSheetXML: TTabSheet
       Caption = '3 - XML'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object MemoXML: TMemo
         Left = 0
         Top = 0
@@ -149,8 +137,6 @@ object Main: TMain
       Caption = 'Action'
       TabOrder = 0
       OnClick = ActionCreateDataSetExecute
-      ExplicitLeft = 0
-      ExplicitTop = 2
     end
     object ButtonClear: TButton
       Left = 818
@@ -160,6 +146,15 @@ object Main: TMain
       Action = ActionClear
       Align = alRight
       TabOrder = 1
+    end
+    object ButtonImportData: TButton
+      Left = 101
+      Top = 1
+      Width = 100
+      Height = 46
+      Action = ActionImportData
+      Align = alLeft
+      TabOrder = 2
     end
   end
   object ActionList: TActionList
@@ -181,8 +176,9 @@ object Main: TMain
       Caption = 'Co&py to clipboard'
       OnExecute = ActionCopyToClipboardExecute
     end
-    object Action1: TAction
-      Caption = 'Action1'
+    object ActionImportData: TAction
+      Caption = '&Import Data'
+      OnExecute = ActionImportDataExecute
     end
   end
 end

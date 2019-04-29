@@ -38,24 +38,23 @@ type
     TabSheetData: TTabSheet;
     TabSheetFields: TTabSheet;
     TabSheetXML: TTabSheet;
-    Action1: TAction;
+    ActionImportData: TAction;
+    ButtonImportData: TButton;
     procedure FormShow(Sender: TObject);
     procedure ActionCreateDataSetExecute(Sender: TObject);
     procedure ActionExportDataExecute(Sender: TObject);
     procedure ActionClearExecute(Sender: TObject);
     procedure ActionCopyToClipboardExecute(Sender: TObject);
     procedure PageControlChange(Sender: TObject);
+    procedure ActionImportDataExecute(Sender: TObject);
   private
     function GetConstant: string;
     procedure SetConstant(const Value: string);
     function GetXML: string;
     procedure SetXML(const Value: string);
-
-    {}
     procedure ControlView;
-
-    function Validate(out Message: string): Boolean;
     procedure NextPage;
+    function GetFileName: string;
   public
     property Constant: string read GetConstant write SetConstant;
     property XML: string read GetXML write SetXML;
@@ -81,7 +80,7 @@ procedure TMain.ActionCreateDataSetExecute(Sender: TObject);
 var
   Message: string;
 begin
-  if not Validate(Message) then
+  if not DataModuleDM.Validate(Message) then
   begin
     ShowMessage(Message);
     Abort;
@@ -97,6 +96,11 @@ procedure TMain.ActionExportDataExecute(Sender: TObject);
 begin
   XML := TUtils.GetXML(DataModuleDM.Data, Constant);
   NextPage;
+end;
+
+procedure TMain.ActionImportDataExecute(Sender: TObject);
+begin
+  DataModuleDM.Data.LoadFromFile(Self.GetFileName);
 end;
 
 procedure TMain.ControlView;
@@ -120,6 +124,25 @@ end;
 function TMain.GetConstant: string;
 begin
   Result := EditConstant.Text;
+end;
+
+function TMain.GetFileName: string;
+var
+  Dialog: TOpenDialog;
+begin
+  Result := string.Empty;
+
+  Dialog := TOpenDialog.Create(Self);
+  try
+    Dialog.InitialDir := GetCurrentDir;
+    Dialog.Options := [ofFileMustExist];
+    Dialog.Filter := 'Arquivo Dat|*.dat|Arquivo XML|*.XML';
+
+    if Dialog.Execute then
+      Result := Dialog.FileName;
+  finally
+    Dialog.Free;
+  end;
 end;
 
 function TMain.GetXML: string;
@@ -147,55 +170,6 @@ procedure TMain.SetXML(const Value: string);
 begin
   MemoXML.Clear;
   MemoXML.Lines.Text := Value;
-end;
-
-function TMain.Validate(out Message: string): Boolean;
-const
-  StringType = [ftString, ftWideString, ftFixedChar, ftFixedWideChar];
-begin
-  Result := False;
-
-  if DataModuleDM.Fields.IsEmpty then
-  begin
-    Message := 'Não existem definições de campos.';
-    Exit;
-  end;
-
-  DataModuleDM.Fields.First;
-  while not DataModuleDM.Fields.Eof do
-  begin
-    if DataModuleDM.Fields['Name'] = string.Empty then
-    begin
-      Message := Format('O campo de indíce %d está com o nome vazio.', [DataModuleDM.Fields.RecNo]);
-      Exit;
-    end;
-
-    if DataModuleDM.Fields.FieldByName('Size').IsNull then
-    begin
-      if TFieldType(DataModuleDM.Fields['TypeId']) in StringType then
-      begin
-        begin
-          Message := Format('O campo "%s" esta com a propriedade "Size" indefinida.', [DataModuleDM.Fields['Name']]);
-          Exit;
-        end;
-      end;
-    end;
-
-    if not DataModuleDM.Fields.FieldByName('Size').IsNull then
-    begin
-      if not (TFieldType(DataModuleDM.Fields['TypeId']) in StringType) then
-      begin
-        begin
-          Message := Format('O campo "%s" esta com a propriedade "Size" definida desnecessariamente.', [DataModuleDM.Fields['Name']]);
-          Exit;
-        end;
-      end;
-    end;
-
-    DataModuleDM.Fields.Next;
-  end;
-
-  Result := True;
 end;
 
 end.
