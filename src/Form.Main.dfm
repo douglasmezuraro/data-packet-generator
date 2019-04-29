@@ -1,7 +1,7 @@
 object Main: TMain
   Left = 0
   Top = 0
-  Caption = 'Main'
+  Caption = 'DataPacket Generator'
   ClientHeight = 518
   ClientWidth = 919
   Color = clBtnFace
@@ -21,19 +21,23 @@ object Main: TMain
     Top = 0
     Width = 919
     Height = 470
-    ActivePage = TabSheetData
+    ActivePage = TabSheetXML
     Align = alClient
     TabOrder = 0
     OnChange = PageControlChange
     object TabSheetFields: TTabSheet
-      Caption = 'Fields'
+      Caption = '1 - Fields'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GridFields: TDBGrid
         Left = 0
         Top = 0
         Width = 911
         Height = 442
         Align = alClient
-        DataSource = DataSourceFields
+        DataSource = DataModuleDM.DataSourceFields
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -68,20 +72,22 @@ object Main: TMain
       end
     end
     object TabSheetData: TTabSheet
-      Caption = 'Data'
-      ExplicitLeft = 7
-      ExplicitTop = 23
-      object Panel1: TPanel
+      Caption = '2 - Data'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+      object PanelConstant: TPanel
         Left = 0
         Top = 0
         Width = 911
         Height = 49
         Align = alTop
         TabOrder = 0
-        object EditConstante: TLabeledEdit
+        object EditConstant: TLabeledEdit
           Left = 14
           Top = 20
-          Width = 283
+          Width = 727
           Height = 21
           EditLabel.Width = 93
           EditLabel.Height = 13
@@ -96,7 +102,7 @@ object Main: TMain
         Width = 911
         Height = 393
         Align = alClient
-        DataSource = DataSourceData
+        DataSource = DataModuleDM.DataSourceData
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -106,8 +112,11 @@ object Main: TMain
       end
     end
     object TabSheetXML: TTabSheet
-      Caption = 'XML'
-      ExplicitTop = 23
+      Caption = '3 - XML'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object MemoXML: TMemo
         Left = 0
         Top = 0
@@ -121,8 +130,6 @@ object Main: TMain
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitLeft = 36
-        ExplicitTop = 146
       end
     end
   end
@@ -133,24 +140,17 @@ object Main: TMain
     Height = 48
     Align = alBottom
     TabOrder = 1
-    object ButtonCreateDataSet: TButton
+    object ButtonAction: TButton
       Left = 1
       Top = 1
       Width = 100
       Height = 46
-      Action = ActionCreateDataSet
       Align = alLeft
-      Caption = 'Create &DataSet'
+      Caption = 'Action'
       TabOrder = 0
-    end
-    object ButtonExportData: TButton
-      Left = 101
-      Top = 1
-      Width = 100
-      Height = 46
-      Action = ActionExportData
-      Align = alLeft
-      TabOrder = 1
+      OnClick = ActionCreateDataSetExecute
+      ExplicitLeft = 0
+      ExplicitTop = 2
     end
     object ButtonClear: TButton
       Left = 818
@@ -159,53 +159,7 @@ object Main: TMain
       Height = 46
       Action = ActionClear
       Align = alRight
-      TabOrder = 2
-    end
-    object ButtonCopyToClipboard: TButton
-      Left = 201
-      Top = 1
-      Width = 100
-      Height = 46
-      Action = ActionCopyToClipboard
-      Align = alLeft
-      TabOrder = 3
-    end
-  end
-  object DataSourceFields: TDataSource
-    DataSet = DataSetFields
-    Left = 536
-    Top = 160
-  end
-  object DataSetFields: TClientDataSet
-    PersistDataPacket.Data = {
-      4D0000009619E0BD0100000018000000030000000000030000004D00044E616D
-      6501004900000001000557494454480200020050000453697A65040001000000
-      0000045479706504000100000000000000}
-    Active = True
-    Aggregates = <>
-    Params = <>
-    Left = 409
-    Top = 205
-    object FieldName: TStringField
-      FieldName = 'Name'
-      Size = 80
-    end
-    object FieldDataSetFieldsType: TIntegerField
-      FieldName = 'Type'
-      Visible = False
-    end
-    object FieldDataSetFieldsTypeName: TStringField
-      FieldKind = fkLookup
-      FieldName = 'TypeName'
-      LookupDataSet = DataSetFieldTypes
-      LookupKeyFields = 'Type'
-      LookupResultField = 'Name'
-      KeyFields = 'Type'
-      Size = 80
-      Lookup = True
-    end
-    object FieldSize: TIntegerField
-      FieldName = 'Size'
+      TabOrder = 1
     end
   end
   object ActionList: TActionList
@@ -227,39 +181,8 @@ object Main: TMain
       Caption = 'Co&py to clipboard'
       OnExecute = ActionCopyToClipboardExecute
     end
-  end
-  object DataSetFieldTypes: TClientDataSet
-    PersistDataPacket.Data = {
-      400000009619E0BD010000001800000002000000000003000000400004547970
-      650400010000000000044E616D65010049000000010005574944544802000200
-      50000000}
-    Active = True
-    Aggregates = <>
-    Params = <>
-    Left = 431
-    Top = 124
-    object FieldAAAAType: TIntegerField
-      FieldName = 'Type'
+    object Action1: TAction
+      Caption = 'Action1'
     end
-    object FielFieldTypesName: TStringField
-      FieldName = 'Name'
-      Size = 80
-    end
-  end
-  object DataSourceFieldTypes: TDataSource
-    DataSet = DataSetFieldTypes
-    Left = 411
-    Top = 284
-  end
-  object DataSetData: TClientDataSet
-    Aggregates = <>
-    Params = <>
-    Left = 592
-    Top = 115
-  end
-  object DataSourceData: TDataSource
-    DataSet = DataSetData
-    Left = 524
-    Top = 245
   end
 end
