@@ -79,6 +79,15 @@ var
   Field: TFieldDef;
   Name: string;
 begin
+  if Length(Fields) = 0 then
+    Exit;
+
+  if Length(Fields) = Value.Fields.Count then
+  begin
+    FDataSet.Data := Value.Data;
+    Exit;
+  end;
+
   for Name in FFields do
   begin
     Field := Value.FieldDefs.Find(Name);

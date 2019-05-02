@@ -20,7 +20,7 @@ object Main: TMain
     Top = 0
     Width = 800
     Height = 552
-    ActivePage = TabSheetData
+    ActivePage = TabSheetXML
     Align = alClient
     TabOrder = 0
     OnChange = PageControlChange
@@ -37,6 +37,7 @@ object Main: TMain
         Height = 524
         Align = alClient
         DataSource = DataModuleDM.DataSourceFields
+        Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -81,15 +82,15 @@ object Main: TMain
         Height = 49
         Align = alTop
         TabOrder = 0
-        ExplicitWidth = 911
+        ExplicitTop = -6
         object EditConstant: TLabeledEdit
-          Left = 14
-          Top = 20
-          Width = 727
+          Left = 8
+          Top = 22
+          Width = 772
           Height = 21
-          EditLabel.Width = 93
+          EditLabel.Width = 73
           EditLabel.Height = 13
-          EditLabel.Caption = 'Nome da constante'
+          EditLabel.Caption = 'Constant name'
           EditLabel.Layout = tlCenter
           TabOrder = 0
         end
@@ -97,10 +98,11 @@ object Main: TMain
       object GridData: TDBGrid
         Left = 0
         Top = 49
-        Width = 697
+        Width = 633
         Height = 475
         Align = alLeft
         DataSource = DataModuleDM.DataSourceData
+        Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -109,17 +111,14 @@ object Main: TMain
         TitleFont.Style = []
       end
       object CheckListBoxFields: TCheckListBox
-        Left = 697
+        Left = 633
         Top = 49
-        Width = 95
+        Width = 159
         Height = 475
         Align = alClient
         ItemHeight = 13
+        PopupMenu = PopupMenuFields
         TabOrder = 2
-        ExplicitLeft = 768
-        ExplicitTop = 128
-        ExplicitWidth = 121
-        ExplicitHeight = 97
       end
     end
     object TabSheetXML: TTabSheet
@@ -171,7 +170,7 @@ object Main: TMain
       Height = 46
       Action = ActionClear
       Align = alRight
-      TabOrder = 1
+      TabOrder = 2
       ExplicitLeft = 818
     end
     object ButtonImportData: TButton
@@ -181,31 +180,56 @@ object Main: TMain
       Height = 46
       Action = ActionImportData
       Align = alLeft
-      TabOrder = 2
+      TabOrder = 1
     end
   end
   object ActionList: TActionList
-    Left = 334
-    Top = 128
+    Left = 134
+    Top = 112
     object ActionCreateDataSet: TAction
-      Caption = '&Create DataSet'
+      Category = 'Button'
+      Caption = 'Create &DataSet'
       OnExecute = ActionCreateDataSetExecute
     end
     object ActionExportData: TAction
+      Category = 'Button'
       Caption = '&Export data'
       OnExecute = ActionExportDataExecute
     end
     object ActionClear: TAction
+      Category = 'Button'
       Caption = '&Clear'
       OnExecute = ActionClearExecute
     end
     object ActionCopyToClipboard: TAction
+      Category = 'Button'
       Caption = 'Co&py to clipboard'
       OnExecute = ActionCopyToClipboardExecute
     end
     object ActionImportData: TAction
+      Category = 'Button'
       Caption = '&Import Data'
       OnExecute = ActionImportDataExecute
+    end
+    object ActionCheckAll: TAction
+      Category = 'Popup'
+      Caption = '&Selecionar todos'
+      OnExecute = ActionCheckAllExecute
+    end
+    object ActionUncheckAll: TAction
+      Category = 'Popup'
+      Caption = '&Deselecionar todos'
+      OnExecute = ActionUncheckAllExecute
+    end
+  end
+  object PopupMenuFields: TPopupMenu
+    Left = 49
+    Top = 112
+    object MenuItemCheckAll: TMenuItem
+      Action = ActionCheckAll
+    end
+    object MenuItemUncheckAll: TMenuItem
+      Action = ActionUncheckAll
     end
   end
 end

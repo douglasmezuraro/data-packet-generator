@@ -1,83 +1,3 @@
-{$A8,B-,C+,D+,E-,F-,G+,H+,I+,J-,K-,L+,M-,N-,O+,P+,Q-,R-,S-,T-,U-,V+,W-,X+,Y+,Z1}
-{$MINSTACKSIZE $00004000}
-{$MAXSTACKSIZE $00100000}
-{$IMAGEBASE $00400000}
-{$APPTYPE GUI}
-{$WARN SYMBOL_DEPRECATED ON}
-{$WARN SYMBOL_LIBRARY ON}
-{$WARN SYMBOL_PLATFORM ON}
-{$WARN SYMBOL_EXPERIMENTAL ON}
-{$WARN UNIT_LIBRARY ON}
-{$WARN UNIT_PLATFORM ON}
-{$WARN UNIT_DEPRECATED ON}
-{$WARN UNIT_EXPERIMENTAL ON}
-{$WARN HRESULT_COMPAT ON}
-{$WARN HIDING_MEMBER ON}
-{$WARN HIDDEN_VIRTUAL ON}
-{$WARN GARBAGE ON}
-{$WARN BOUNDS_ERROR ON}
-{$WARN ZERO_NIL_COMPAT ON}
-{$WARN STRING_CONST_TRUNCED ON}
-{$WARN FOR_LOOP_VAR_VARPAR ON}
-{$WARN TYPED_CONST_VARPAR ON}
-{$WARN ASG_TO_TYPED_CONST ON}
-{$WARN CASE_LABEL_RANGE ON}
-{$WARN FOR_VARIABLE ON}
-{$WARN CONSTRUCTING_ABSTRACT ON}
-{$WARN COMPARISON_FALSE ON}
-{$WARN COMPARISON_TRUE ON}
-{$WARN COMPARING_SIGNED_UNSIGNED ON}
-{$WARN COMBINING_SIGNED_UNSIGNED ON}
-{$WARN UNSUPPORTED_CONSTRUCT ON}
-{$WARN FILE_OPEN ON}
-{$WARN FILE_OPEN_UNITSRC ON}
-{$WARN BAD_GLOBAL_SYMBOL ON}
-{$WARN DUPLICATE_CTOR_DTOR ON}
-{$WARN INVALID_DIRECTIVE ON}
-{$WARN PACKAGE_NO_LINK ON}
-{$WARN PACKAGED_THREADVAR ON}
-{$WARN IMPLICIT_IMPORT ON}
-{$WARN HPPEMIT_IGNORED ON}
-{$WARN NO_RETVAL ON}
-{$WARN USE_BEFORE_DEF ON}
-{$WARN FOR_LOOP_VAR_UNDEF ON}
-{$WARN UNIT_NAME_MISMATCH ON}
-{$WARN NO_CFG_FILE_FOUND ON}
-{$WARN IMPLICIT_VARIANTS ON}
-{$WARN UNICODE_TO_LOCALE ON}
-{$WARN LOCALE_TO_UNICODE ON}
-{$WARN IMAGEBASE_MULTIPLE ON}
-{$WARN SUSPICIOUS_TYPECAST ON}
-{$WARN PRIVATE_PROPACCESSOR ON}
-{$WARN UNSAFE_TYPE OFF}
-{$WARN UNSAFE_CODE OFF}
-{$WARN UNSAFE_CAST OFF}
-{$WARN OPTION_TRUNCATED ON}
-{$WARN WIDECHAR_REDUCED ON}
-{$WARN DUPLICATES_IGNORED ON}
-{$WARN UNIT_INIT_SEQ ON}
-{$WARN LOCAL_PINVOKE ON}
-{$WARN MESSAGE_DIRECTIVE ON}
-{$WARN TYPEINFO_IMPLICITLY_ADDED ON}
-{$WARN RLINK_WARNING ON}
-{$WARN IMPLICIT_STRING_CAST ON}
-{$WARN IMPLICIT_STRING_CAST_LOSS ON}
-{$WARN EXPLICIT_STRING_CAST OFF}
-{$WARN EXPLICIT_STRING_CAST_LOSS OFF}
-{$WARN CVT_WCHAR_TO_ACHAR ON}
-{$WARN CVT_NARROWING_STRING_LOST ON}
-{$WARN CVT_ACHAR_TO_WCHAR ON}
-{$WARN CVT_WIDENING_STRING_LOST ON}
-{$WARN NON_PORTABLE_TYPECAST ON}
-{$WARN XML_WHITESPACE_NOT_ALLOWED ON}
-{$WARN XML_UNKNOWN_ENTITY ON}
-{$WARN XML_INVALID_NAME_START ON}
-{$WARN XML_INVALID_NAME ON}
-{$WARN XML_EXPECTED_CHARACTER ON}
-{$WARN XML_CREF_NO_RESOLVE ON}
-{$WARN XML_NO_PARM ON}
-{$WARN XML_NO_MATCHING_PARM ON}
-{$WARN IMMUTABLE_STRINGS OFF}
 unit Form.Main;
 
 interface
@@ -97,6 +17,7 @@ uses
   Vcl.ExtCtrls,
   Vcl.Forms,
   Vcl.Grids,
+  Vcl.Menus,
   Vcl.StdCtrls,
   XML.Exporter;
 
@@ -122,6 +43,11 @@ type
     ActionImportData: TAction;
     ButtonImportData: TButton;
     CheckListBoxFields: TCheckListBox;
+    PopupMenuFields: TPopupMenu;
+    MenuItemCheckAll: TMenuItem;
+    ActionCheckAll: TAction;
+    ActionUncheckAll: TAction;
+    MenuItemUncheckAll: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure ActionCreateDataSetExecute(Sender: TObject);
     procedure ActionExportDataExecute(Sender: TObject);
@@ -129,16 +55,19 @@ type
     procedure ActionCopyToClipboardExecute(Sender: TObject);
     procedure PageControlChange(Sender: TObject);
     procedure ActionImportDataExecute(Sender: TObject);
-  private
+    procedure ActionCheckAllExecute(Sender: TObject);
+    procedure ActionUncheckAllExecute(Sender: TObject);
+  strict private
     function GetConstant: string;
     procedure SetConstant(const Value: string);
     function GetXML: string;
     procedure SetXML(const Value: string);
+    function GetFields: TArray<string>;
+  private
     procedure ControlView;
     procedure NextPage;
-    procedure Foo;
+    procedure UpdateFieldList;
     function OpenFile(out FileName: TFileName): Boolean;
-    function GetFields: TArray<string>;
   public
     property Constant: string read GetConstant write SetConstant;
     property XML: string read GetXML write SetXML;
@@ -149,10 +78,18 @@ implementation
 
 {$R *.dfm}
 
+procedure TMain.ActionCheckAllExecute(Sender: TObject);
+begin
+  CheckListBoxFields.CheckAll(TCheckBoxState.cbChecked);
+end;
+
 procedure TMain.ActionClearExecute(Sender: TObject);
 begin
   DataModuleDM.Clear;
-  MemoXML.Lines.Clear;
+  MemoXML.Clear;
+  CheckListBoxFields.Clear;
+  GridData.Columns.RebuildColumns;
+  Constant := string.Empty;
 end;
 
 procedure TMain.ActionCopyToClipboardExecute(Sender: TObject);
@@ -173,6 +110,8 @@ begin
 
   DataModuleDM.CreateData;
   GridData.Columns.RebuildColumns;
+
+  UpdateFieldList;
 
   NextPage;
 end;
@@ -203,8 +142,14 @@ begin
   begin
     DataModuleDM.Data.LoadFromFile(FileName);
     DataModuleDM.Data.LogChanges := False;
-    Foo;
+    UpdateFieldList;
+    NextPage;
   end;
+end;
+
+procedure TMain.ActionUncheckAllExecute(Sender: TObject);
+begin
+  CheckListBoxFields.CheckAll(TCheckBoxState.cbUnchecked);
 end;
 
 procedure TMain.ControlView;
@@ -217,11 +162,14 @@ begin
 
   if PageControl.ActivePage = TabSheetXML then
     ButtonAction.Action := ActionCopyToClipboard;
+
+  ButtonImportData.Visible := PageControl.ActivePage = TabSheetFields;
 end;
 
-procedure TMain.Foo;
+procedure TMain.UpdateFieldList;
 begin
   DataModuleDM.Data.GetFieldNames(CheckListBoxFields.Items);
+  CheckListBoxFields.Sorted := True;
   CheckListBoxFields.CheckAll(TCheckBoxState.cbChecked);
 end;
 
@@ -257,12 +205,10 @@ var
   Dialog: TOpenDialog;
 begin
   Result := False;
-
   Dialog := TOpenDialog.Create(Self);
   try
-  //  Dialog.InitialDir := GetCurrentDir;
-    Dialog.Options := [ofFileMustExist];
-    Dialog.Filter := 'Arquivo Dat|*.dat|Arquivo XML|*.XML';
+    Dialog.Options := [ofFileMustExist, ofHideReadOnly];
+    Dialog.Filter := 'DAT File|*.dat|XML File|*.XML';
 
     if Dialog.Execute then
     begin
