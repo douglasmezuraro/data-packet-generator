@@ -71,7 +71,10 @@ constructor TDataModuleDM.Create(Owner: TComponent);
 begin
   inherited;
   DataSetTypes.CreateDataSet;
+  DataSetTypes.LogChanges := False;
+
   DataSetFields.CreateDataSet;
+  DataSetFields.LogChanges := False;
 
   PopulateTypes;
 

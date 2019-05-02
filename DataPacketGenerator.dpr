@@ -6,7 +6,7 @@ uses
   Vcl.Themes,
   Vcl.Styles,
   Form.DataModule in 'src\Form.DataModule.pas' {DataModuleDM: TDataModule},
-  Utils in 'src\Utils.pas';
+  XML.Exporter in 'src\XML.Exporter.pas';
 
 {$R *.res}
 
