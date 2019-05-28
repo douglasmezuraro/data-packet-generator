@@ -1,6 +1,7 @@
 object Main: TMain
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu]
   Caption = 'DataPacket Generator'
   ClientHeight = 600
   ClientWidth = 800
@@ -20,16 +21,12 @@ object Main: TMain
     Top = 0
     Width = 800
     Height = 552
-    ActivePage = TabSheetXML
+    ActivePage = TabSheetFields
     Align = alClient
     TabOrder = 0
     OnChange = PageControlChange
-    ExplicitWidth = 919
-    ExplicitHeight = 470
     object TabSheetFields: TTabSheet
       Caption = '1 - Fields'
-      ExplicitWidth = 911
-      ExplicitHeight = 442
       object GridFields: TDBGrid
         Left = 0
         Top = 0
@@ -73,8 +70,6 @@ object Main: TMain
     end
     object TabSheetData: TTabSheet
       Caption = '2 - Data'
-      ExplicitWidth = 911
-      ExplicitHeight = 442
       object PanelConstant: TPanel
         Left = 0
         Top = 0
@@ -82,7 +77,6 @@ object Main: TMain
         Height = 49
         Align = alTop
         TabOrder = 0
-        ExplicitTop = -6
         object EditConstant: TLabeledEdit
           Left = 8
           Top = 22
@@ -123,8 +117,6 @@ object Main: TMain
     end
     object TabSheetXML: TTabSheet
       Caption = '3 - XML'
-      ExplicitWidth = 911
-      ExplicitHeight = 442
       object MemoXML: TMemo
         Left = 0
         Top = 0
@@ -138,9 +130,6 @@ object Main: TMain
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitTop = -1
-        ExplicitWidth = 911
-        ExplicitHeight = 442
       end
     end
   end
@@ -151,8 +140,6 @@ object Main: TMain
     Height = 48
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 470
-    ExplicitWidth = 919
     object ButtonAction: TButton
       Left = 1
       Top = 1
@@ -171,7 +158,6 @@ object Main: TMain
       Action = ActionClear
       Align = alRight
       TabOrder = 2
-      ExplicitLeft = 818
     end
     object ButtonImportData: TButton
       Left = 101

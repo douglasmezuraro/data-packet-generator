@@ -1,10 +1,11 @@
 program DataPacketGenerator;
 
 uses
+  Midas,
   Vcl.Forms,
-  Form.Main in 'src\Form.Main.pas' {Main},
   Vcl.Themes,
   Vcl.Styles,
+  Form.Main in 'src\Form.Main.pas' {Main},
   Form.DataModule in 'src\Form.DataModule.pas' {DataModuleDM: TDataModule},
   XML.Exporter in 'src\XML.Exporter.pas';
 
