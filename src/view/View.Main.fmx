@@ -1,0 +1,281 @@
+object Main: TMain
+  Left = 0
+  Top = 0
+  Caption = 'DataPacket Generator'
+  ClientHeight = 600
+  ClientWidth = 800
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnKeyUp = FormKeyUp
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object TabControlView: TTabControl
+    Align = Client
+    Size.Width = 800.000000000000000000
+    Size.Height = 600.000000000000000000
+    Size.PlatformDefault = False
+    TabIndex = 0
+    TabOrder = 0
+    TabPosition = PlatformDefault
+    Sizes = (
+      800s
+      574s
+      800s
+      574s
+      800s
+      574s)
+    object TabItemFields: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 51.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Fields'
+      ExplicitSize.cx = 51.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object GridFields: TStringGrid
+        Align = Client
+        CanFocus = True
+        ClipChildren = True
+        Size.Width = 800.000000000000000000
+        Size.Height = 529.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Viewport.Width = 780.000000000000000000
+        Viewport.Height = 504.000000000000000000
+        object ColumnFieldName: TStringColumn
+          Header = 'Name'
+          Size.Width = 269.000000000000000000
+        end
+        object ColumnFieldSize: TIntegerColumn
+          Header = 'Size'
+          Size.Width = 197.000000000000000000
+        end
+        object ColumnFieldType: TPopupColumn
+          Header = 'Type'
+          Size.Width = 105.000000000000000000
+        end
+      end
+      object PanelButtonsTabFields: TPanel
+        Align = Bottom
+        Position.Y = 529.000000000000000000
+        Size.Width = 800.000000000000000000
+        Size.Height = 45.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        object ButtonCreateDataSet: TButton
+          Action = ActionCreateData
+          Align = Left
+          Enabled = True
+          ImageIndex = -1
+          Size.Width = 100.000000000000000000
+          Size.Height = 45.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+        end
+        object ButtonImport: TButton
+          Action = ActionImport
+          Align = Left
+          Enabled = True
+          ImageIndex = -1
+          Position.X = 100.000000000000000000
+          Size.Width = 100.000000000000000000
+          Size.Height = 45.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+        end
+      end
+    end
+    object TabItemData: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 45.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Data'
+      ExplicitSize.cx = 45.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object PanelButtonsTabData: TPanel
+        Align = Bottom
+        Position.Y = 529.000000000000000000
+        Size.Width = 800.000000000000000000
+        Size.Height = 45.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object ButtonExport: TButton
+          Action = ActionExport
+          Align = Left
+          Enabled = True
+          ImageIndex = -1
+          Size.Width = 100.000000000000000000
+          Size.Height = 45.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+        end
+      end
+      object PanelFilterFields: TPanel
+        Align = Right
+        Position.X = 560.000000000000000000
+        Size.Width = 240.000000000000000000
+        Size.Height = 529.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        object ListBoxFields: TListBox
+          Align = Client
+          PopupMenu = PopupMenu
+          Size.Width = 240.000000000000000000
+          Size.Height = 505.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          DisableFocusEffect = True
+          DefaultItemStyles.ItemStyle = ''
+          DefaultItemStyles.GroupHeaderStyle = ''
+          DefaultItemStyles.GroupFooterStyle = ''
+          ShowCheckboxes = True
+          Viewport.Width = 236.000000000000000000
+          Viewport.Height = 501.000000000000000000
+        end
+        object EditFilter: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 1
+          Size.Width = 240.000000000000000000
+          Size.Height = 24.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'Filter...'
+          OnChangeTracking = EditFilterChangeTracking
+        end
+      end
+      object PanelGridData: TPanel
+        Align = Client
+        Size.Width = 560.000000000000000000
+        Size.Height = 529.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        object GridData: TStringGrid
+          Align = Client
+          CanFocus = True
+          ClipChildren = True
+          Size.Width = 560.000000000000000000
+          Size.Height = 505.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Viewport.Width = 556.000000000000000000
+          Viewport.Height = 480.000000000000000000
+        end
+        object EditConstant: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Align = Top
+          TabOrder = 1
+          Size.Width = 560.000000000000000000
+          Size.Height = 24.000000000000000000
+          Size.PlatformDefault = False
+          TextPrompt = 'Constant'
+        end
+      end
+    end
+    object TabItemXML: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 44.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'XML'
+      ExplicitSize.cx = 54.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object PanelButtonsTabXML: TPanel
+        Align = Bottom
+        Position.Y = 529.000000000000000000
+        Size.Width = 800.000000000000000000
+        Size.Height = 45.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object ButtonCopyToClipboard: TButton
+          Action = ActionCopyToClipboard
+          Align = Left
+          Enabled = True
+          ImageIndex = -1
+          Size.Width = 100.000000000000000000
+          Size.Height = 45.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+        end
+      end
+      object MemoXML: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        StyledSettings = [Size, Style, FontColor]
+        TextSettings.Font.Family = 'Courier New'
+        Align = Client
+        Size.Width = 800.000000000000000000
+        Size.Height = 529.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        Viewport.Width = 796.000000000000000000
+        Viewport.Height = 525.000000000000000000
+      end
+    end
+  end
+  object ActionList: TActionList
+    Left = 467
+    Top = 140
+    object ActionCreateData: TAction
+      Category = 'Button'
+      Text = 'Create &DataSet'
+      OnExecute = ActionCreateDataExecute
+    end
+    object ActionExport: TAction
+      Category = 'Button'
+      Text = '&Export'
+      OnExecute = ActionExportExecute
+    end
+    object ActionCopyToClipboard: TAction
+      Category = 'Button'
+      Text = 'Copy to &clipboard'
+      OnExecute = ActionCopyToClipboardExecute
+    end
+    object ActionCheckAll: TAction
+      Category = 'Popup'
+      Text = 'Check all'
+      OnExecute = ActionCheckAllExecute
+    end
+    object ActionUncheckAll: TAction
+      Category = 'Popup'
+      Text = 'Uncheck all'
+      OnExecute = ActionUncheckAllExecute
+    end
+    object ActionImport: TAction
+      Category = 'Button'
+      Text = '&Import data'
+      OnExecute = ActionImportExecute
+    end
+  end
+  object PopupMenu: TPopupMenu
+    Left = 466
+    Top = 194
+    object MenuItemCheckAll: TMenuItem
+      Action = ActionCheckAll
+      Enabled = True
+      ImageIndex = -1
+    end
+    object MenuItemUncheckAll: TMenuItem
+      Action = ActionUncheckAll
+      Enabled = True
+      ImageIndex = -1
+    end
+  end
+end

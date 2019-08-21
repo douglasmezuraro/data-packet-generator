@@ -1,13 +1,13 @@
 program DataPacketGenerator;
 
 uses
-  Midas,
-  Vcl.Forms,
-  Vcl.Themes,
-  Vcl.Styles,
-  Form.Main in 'src\Form.Main.pas' {Main},
-  Form.DataModule in 'src\Form.DataModule.pas' {DataModuleDM: TDataModule},
-  XML.Exporter in 'src\XML.Exporter.pas';
+  MidasLib,
+  System.StartUpCopy,
+  FMX.Forms,
+  View.Main in 'src\view\View.Main.pas' {Main},
+  Helper.FMX in 'src\helper\Helper.FMX.pas',
+  Util.Methods in 'src\util\Util.Methods.pas',
+  Util.XMLExporter in 'src\util\Util.XMLExporter.pas';
 
 {$R *.res}
 
@@ -16,14 +16,11 @@ var
 
 begin
   Application.Initialize;
-  Application.MainFormOnTaskbar := True;
-  Application.Title := 'Data Packet Generator';
-
-  TStyleManager.TrySetStyle('Smokey Quartz Kamri');
-
   Application.CreateForm(TMain, Main);
-  Application.CreateForm(TDataModuleDM, DataModuleDM);
   Application.Run;
 
-  ReportMemoryLeaksOnShutdown := True;
+  {$WARN SYMBOL_PLATFORM OFF}
+  ReportMemoryLeaksOnShutdown := DebugHook > 0;
+  {$WARN SYMBOL_PLATFORM ON}
 end.
+

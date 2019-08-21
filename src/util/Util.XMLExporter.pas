@@ -1,14 +1,9 @@
-unit XML.Exporter;
+unit Util.XMLExporter;
 
 interface
 
 uses
-  Data.DB,
-  Datasnap.DBClient,
-  System.Classes,
-  System.SysUtils,
-  XMLDoc,
-  XMLIntf;
+  Data.DB, Datasnap.DBClient, System.Classes, System.SysUtils, XMLDoc, XMLIntf;
 
 type
   TXMLExporter = class
@@ -42,6 +37,11 @@ begin
   inherited Destroy;
 end;
 
+function TXMLExporter.Export: string;
+begin
+  Result := FormatXML;
+end;
+
 function TXMLExporter.FormatXML: string;
 const
   Delimiter: array[Boolean] of string = ('+', ';');
@@ -57,6 +57,7 @@ begin
     Exit;
 
   Lines := TStringList.Create;
+
   try
     Lines.Text := Result;
 
@@ -111,9 +112,5 @@ begin
   end;
 end;
 
-function TXMLExporter.Export: string;
-begin
-  Result := FormatXML;
-end;
-
 end.
+
