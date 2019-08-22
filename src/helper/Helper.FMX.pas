@@ -3,7 +3,7 @@ unit Helper.FMX;
 interface
 
 uses
-  FMX.Grid, FMX.ListBox, System.Classes, System.SysUtils, Data.DB, DataSnap.DBClient;
+  FMX.Grid, FMX.ListBox, System.Classes, System.SysUtils, Data.DB, DataSnap.DBClient, System.Math;
 
 type
   TColumnFactory = class sealed
@@ -25,8 +25,7 @@ type
     function Headers: TArray<string>;
 
     function IsEmpty: Boolean;
-    procedure Empty;
-    procedure Initialize;
+    procedure Empty(const DeleteColumns: Boolean = True);
     procedure Append;
     procedure Insert;
     procedure Delete;
@@ -57,7 +56,12 @@ begin
     ftFloat    : Column := TFloatColumn.Create(nil);
     ftDate     : Column := TDateColumn.Create(nil);
     ftTime     : Column := TTimeColumn.Create(nil);
-    ftDateTime : Column := TTimeColumn.Create(nil);
+    ftDateTime :
+      begin
+        Column := TTimeColumn.Create(nil);
+        TTimeColumn(Column).Format := 'dd/MM/yyyy hh:mm:ss';
+        Column.Width := Max(Column.Width, Column.Width * 1.4);
+      end
   else
     raise ENotImplemented.Create('The column has been not implemented.');
   end;
@@ -110,9 +114,11 @@ begin
   RowCount := Pred(RowCount);
 end;
 
-procedure TStringGridHelper.Empty;
+procedure TStringGridHelper.Empty(const DeleteColumns: Boolean = True);
 begin
   RowCount := 0;
+  if DeleteColumns then
+    ClearColumns;
 end;
 
 procedure TStringGridHelper.FillData(const DataSet: TClientDataSet);
@@ -140,6 +146,7 @@ begin
   if not Assigned(DataSet) then
     Exit;
 
+  Empty;
   RowCount := DataSet.RecordCount;
   CreateColumns(DataSet);
   FillData(DataSet);
@@ -152,11 +159,6 @@ begin
   SetLength(Result, ColumnCount);
   for LColumn := FirstColumn to Pred(ColumnCount) do
     Result[LColumn] := ColumnByIndex(LColumn).Header;
-end;
-
-procedure TStringGridHelper.Initialize;
-begin
-  Empty;
 end;
 
 procedure TStringGridHelper.Insert;
@@ -186,7 +188,7 @@ end;
 
 function TStringGridHelper.IsEmpty: Boolean;
 begin
-  Result := RowCount = FirstRow;
+  Result := RowCount = 0;
 end;
 
 procedure TStringGridHelper.ToDataSet(const DataSet: TClientDataSet);
@@ -199,15 +201,20 @@ begin
   if not DataSet.Active then
     Exit;
 
-  DataSet.EmptyDataSet;
-  for LRow := FirstRow to Pred(RowCount) do
-  begin
-    DataSet.Append;
-    for LColumn := FirstColumn to Pred(ColumnCount) do
+  DataSet.DisableControls;
+  try
+    DataSet.EmptyDataSet;
+    for LRow := FirstRow to Pred(RowCount) do
     begin
-      DataSet.FieldByName(ColumnByIndex(LColumn).Header).AsString := Cells[LColumn, LRow];
+      DataSet.Append;
+      for LColumn := FirstColumn to Pred(ColumnCount) do
+      begin
+        DataSet.FieldByName(ColumnByIndex(LColumn).Header).AsString := Cells[LColumn, LRow];
+      end;
+      DataSet.Post;
     end;
-    DataSet.Post;
+  finally
+    DataSet.EnableControls;
   end;
 end;
 

@@ -13,10 +13,11 @@
     <Transaction>2019/08/20 17:43:44.000.003,C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.Methods.pas=C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas</Transaction>
     <Transaction>2019/08/20 17:52:13.000.045,=C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas</Transaction>
     <Transaction>2019/08/20 17:52:30.000.438,C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.Factory.Column.pas=C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas</Transaction>
-    <Transaction>2019/08/21 14:56:36.135,=C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.XMLExporter.pas</Transaction>
-    <Transaction>2019/08/21 15:45:18.430,C:\Users\douglas.mezuraro\Documents\DPC\src\helper\Helper.FMX.pas=C:\Users\douglas.mezuraro\Documents\DPC\src\helper\Helper.StringGrid.pas</Transaction>
-    <Transaction>2019/08/21 17:38:13.422,C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.Factory.Column.pas=</Transaction>
-  </Transactions>  <ProjectSortOrder AutoSort="0" SortType="0">
+    <Transaction>2019/08/21 14:56:36.000.135,=C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.XMLExporter.pas</Transaction>
+    <Transaction>2019/08/21 15:45:18.000.430,C:\Users\douglas.mezuraro\Documents\DPC\src\helper\Helper.FMX.pas=C:\Users\douglas.mezuraro\Documents\DPC\src\helper\Helper.StringGrid.pas</Transaction>
+    <Transaction>2019/08/21 17:38:13.000.422,C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.Factory.Column.pas=</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="src"/>
     <File Path="src\helper"/>
     <File Path="src\helper\Helper.FMX.pas"/>

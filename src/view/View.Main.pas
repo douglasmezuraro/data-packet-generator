@@ -118,6 +118,7 @@ end;
 procedure TMain.AfterDefineFields;
 begin
   GridData.FromDataSet(FDataSet);
+  ListBoxFields.Items.Clear;
   ListBoxFields.Items.AddStrings(GridData.Headers);
   ListBoxFields.CheckAll;
   TabControlView.Next;
@@ -134,6 +135,9 @@ var
   Index: Integer;
   FieldDef: TFieldDef;
 begin
+  if FDataSet.Active then
+    FDataSet.Close;
+
   FDataSet.FieldDefs.Clear;
 
   for Index := 0 to Pred(GridFields.RowCount) do
@@ -155,14 +159,11 @@ var
 begin
   Text := (Sender as TEdit).Text.Trim;
 
-  if Text.IsEmpty then
-    Exit;
-
   RegEx := TRegEx.Create(Text, [roIgnoreCase]);
   ListBoxFields.FilterPredicate := TPredicate<string>(
     function(const Filter: string): Boolean
     begin
-      Result := RegEx.IsMatch(Filter)
+      Result := Text.IsEmpty or RegEx.IsMatch(Filter);
     end);
 end;
 
@@ -185,7 +186,7 @@ end;
 
 procedure TMain.FormShow(Sender: TObject);
 begin
-  GridFields.Initialize;
+  GridFields.Empty(False);
   ColumnFieldType.Items.AddStrings(TMethods.GetFieldTypes);
   TabControlView.ActiveTab := TabItemFields;
 end;
@@ -233,14 +234,8 @@ begin
       Exit;
 
     case Key of
-      vkInsert:
-        begin
-          Grid.Append;
-        end;
-      vkDelete:
-        begin
-          Grid.Delete;
-        end;
+      vkInsert: Grid.Append;
+      vkDelete: Grid.Delete;
     end;
   end;
 end;

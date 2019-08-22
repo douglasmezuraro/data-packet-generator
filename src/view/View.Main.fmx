@@ -51,15 +51,15 @@ object Main: TMain
         Viewport.Height = 504.000000000000000000
         object ColumnFieldName: TStringColumn
           Header = 'Name'
-          Size.Width = 269.000000000000000000
-        end
-        object ColumnFieldSize: TIntegerColumn
-          Header = 'Size'
-          Size.Width = 197.000000000000000000
+          Size.Width = 361.000000000000000000
         end
         object ColumnFieldType: TPopupColumn
           Header = 'Type'
-          Size.Width = 105.000000000000000000
+          Size.Width = 263.000000000000000000
+        end
+        object ColumnFieldSize: TIntegerColumn
+          Header = 'Size'
+          Size.Width = 121.000000000000000000
         end
       end
       object PanelButtonsTabFields: TPanel
@@ -180,7 +180,7 @@ object Main: TMain
           Size.Width = 560.000000000000000000
           Size.Height = 24.000000000000000000
           Size.PlatformDefault = False
-          TextPrompt = 'Constant'
+          TextPrompt = 'Constant name...'
         end
       end
     end
@@ -230,6 +230,20 @@ object Main: TMain
       end
     end
   end
+  object PopupMenu: TPopupMenu
+    Left = 466
+    Top = 194
+    object MenuItemCheckAll: TMenuItem
+      Action = ActionCheckAll
+      Enabled = True
+      ImageIndex = -1
+    end
+    object MenuItemUncheckAll: TMenuItem
+      Action = ActionUncheckAll
+      Enabled = True
+      ImageIndex = -1
+    end
+  end
   object ActionList: TActionList
     Left = 467
     Top = 140
@@ -262,20 +276,6 @@ object Main: TMain
       Category = 'Button'
       Text = '&Import data'
       OnExecute = ActionImportExecute
-    end
-  end
-  object PopupMenu: TPopupMenu
-    Left = 466
-    Top = 194
-    object MenuItemCheckAll: TMenuItem
-      Action = ActionCheckAll
-      Enabled = True
-      ImageIndex = -1
-    end
-    object MenuItemUncheckAll: TMenuItem
-      Action = ActionUncheckAll
-      Enabled = True
-      ImageIndex = -1
     end
   end
 end
