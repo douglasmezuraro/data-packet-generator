@@ -7,7 +7,7 @@ uses
   FMX.Grid, FMX.ScrollBox, FMX.StdCtrls, FMX.Controls.Presentation, FMX.TabControl, Winapi.Windows,
   Helper.FMX, Util.Methods, Data.DB, System.Actions, FMX.ActnList, DataSnap.DBClient, FMX.Layouts,
   FMX.ListBox, FMX.Edit, FMX.Memo, Util.XMLExporter, FMX.Menus, FMX.Grid.Style, FMX.Dialogs,
-  System.RegularExpressions;
+  System.RegularExpressions, FMX.DialogService, Winapi.UrlMon;
 
 type
   TMain = class(TForm)
@@ -15,11 +15,13 @@ type
     ActionCopyToClipboard: TAction;
     ActionCreateData: TAction;
     ActionExport: TAction;
+    ActionImport: TAction;
     ActionList: TActionList;
     ActionUncheckAll: TAction;
     ButtonCopyToClipboard: TButton;
     ButtonCreateDataSet: TButton;
     ButtonExport: TButton;
+    ButtonImport: TButton;
     ColumnFieldName: TStringColumn;
     ColumnFieldSize: TIntegerColumn;
     ColumnFieldType: TPopupColumn;
@@ -27,6 +29,11 @@ type
     EditFilter: TEdit;
     GridData: TStringGrid;
     GridFields: TStringGrid;
+    GroupBoxIssue: TGroupBox;
+    GroupBoxShortcuts: TGroupBox;
+    LabelDelete: TLabel;
+    LabelGitHubLink: TLabel;
+    LabelInsert: TLabel;
     ListBoxFields: TListBox;
     MemoXML: TMemo;
     MenuItemCheckAll: TMenuItem;
@@ -40,9 +47,8 @@ type
     TabControlView: TTabControl;
     TabItemData: TTabItem;
     TabItemFields: TTabItem;
+    TabItemMisc: TTabItem;
     TabItemXML: TTabItem;
-    ActionImport: TAction;
-    ButtonImport: TButton;
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure ActionCreateDataExecute(Sender: TObject);
@@ -52,6 +58,9 @@ type
     procedure ActionUncheckAllExecute(Sender: TObject);
     procedure ActionCopyToClipboardExecute(Sender: TObject);
     procedure ActionImportExecute(Sender: TObject);
+    procedure LabelGitHubLinkMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
+    procedure LabelGitHubLinkMouseLeave(Sender: TObject);
+    procedure LabelGitHubLinkClick(Sender: TObject);
   private
     FDataSet: TClientDataSet;
     procedure CreateDataSet;
@@ -59,6 +68,8 @@ type
     procedure Import;
     procedure CopyToClipboard;
     procedure AfterDefineFields;
+    function TreatMessage(const Exception: EDatabaseError): string;
+    function GetActiveGrid: TStringGrid;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -94,8 +105,20 @@ procedure TMain.ActionCreateDataExecute(Sender: TObject);
 begin
   if not GridFields.IsEmpty then
   begin
-    CreateDataSet;
-    AfterDefineFields;
+    try
+      CreateDataSet;
+      AfterDefineFields;
+    except
+      on Exception: EDatabaseError do
+      begin
+        TDialogService.MessageDialog(TreatMessage(Exception), TMsgDlgType.mtWarning, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, -1, nil);
+      end;
+
+      on E: Exception do
+      begin
+        TDialogService.MessageDialog('Unknown error. Open a issue in github.', TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, -1, nil);
+      end;
+    end;
   end;
 end;
 
@@ -191,6 +214,17 @@ begin
   TabControlView.ActiveTab := TabItemFields;
 end;
 
+function TMain.GetActiveGrid: TStringGrid;
+begin
+  if TabControlView.ActiveTab = TabItemFields then
+    Exit(GridFields);
+
+  if TabControlView.ActiveTab = TabItemData then
+    Exit(GridData);
+
+  Result := nil;
+end;
+
 procedure TMain.Import;
 var
   Dialog: TOpenDialog;
@@ -210,32 +244,52 @@ begin
   end;
 end;
 
+procedure TMain.LabelGitHubLinkClick(Sender: TObject);
+begin
+  HlinkNavigateString(nil, PWideChar((Sender as TLabel).Text));
+end;
+
+procedure TMain.LabelGitHubLinkMouseLeave(Sender: TObject);
+begin
+  (Sender as TLabel).SetStyle(TLabel.TLabelStyle.lsNone);
+end;
+
+procedure TMain.LabelGitHubLinkMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
+begin
+  (Sender as TLabel).SetStyle(TLabel.TLabelStyle.lsHyperLink);
+end;
+
+function TMain.TreatMessage(const Exception: EDatabaseError): string;
+begin
+  if not Assigned(Exception) then
+    Exit('Undefined error.');
+
+  if Exception.Message.Equals('Invalid field type.') then
+    Exit('You must define a type for each of the fields.');
+
+  if Exception.Message.Equals('Invalid field size') then
+    Exit('Only "ftString" needs to set size property, which must be positive.');
+
+  if Exception.Message.Contains('Duplicate name') then
+    Exit(Format('%s. The field name must be unique.', [Exception.Message]));
+
+  Result := Exception.Message;
+end;
+
 procedure TMain.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
-
-  function GetGrid: TStringGrid;
-  begin
-    if TabControlView.ActiveTab = TabItemFields then
-      Exit(GridFields);
-
-    if TabControlView.ActiveTab = TabItemData then
-      Exit(GridData);
-
-    Result := nil;
-  end;
-
 var
-  Grid: TStringGrid;
+  ActiveGrid: TStringGrid;
 begin
   if ssCtrl in Shift then
   begin
-    Grid := GetGrid;
+    ActiveGrid := GetActiveGrid;
 
-    if not Assigned(Grid) then
+    if not Assigned(ActiveGrid) then
       Exit;
 
     case Key of
-      vkInsert: Grid.Append;
-      vkDelete: Grid.Delete;
+      vkInsert: ActiveGrid.Append;
+      vkDelete: ActiveGrid.Delete;
     end;
   end;
 end;

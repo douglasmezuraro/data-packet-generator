@@ -3,7 +3,8 @@ unit Helper.FMX;
 interface
 
 uses
-  FMX.Grid, FMX.ListBox, System.Classes, System.SysUtils, Data.DB, DataSnap.DBClient, System.Math;
+  FMX.Grid, FMX.ListBox, System.Classes, System.SysUtils, Data.DB, DataSnap.DBClient, System.Math,
+  FMX.StdCtrls, System.UITypes, FMX.Types;
 
 type
   TColumnFactory = class sealed
@@ -39,6 +40,13 @@ type
     procedure CheckAll;
     procedure UncheckAll;
     property CheckedItems: TArray<string> read GetCheckedItems;
+  end;
+
+  TLabelHelper = class Helper for TLabel
+  public type
+    TLabelStyle = (lsNone, lsHyperLink);
+  public
+    procedure SetStyle(const Style: TLabelStyle);
   end;
 
 implementation
@@ -269,6 +277,28 @@ begin
     end;
   finally
     Enumerator.Free;
+  end;
+end;
+
+{ TLabelHelper }
+
+procedure TLabelHelper.SetStyle(const Style: TLabelStyle);
+begin
+  HitTest := True;
+  StyledSettings := StyledSettings - [TStyledSetting.FontColor, TStyledSetting.Style];
+  case Style of
+    TLabelStyle.lsNone:
+      begin
+        FontColor := TAlphaColorRec.Black;
+        Font.Style := Font.Style - [TFontStyle.fsUnderline];
+        Cursor := crDefault;
+      end;
+    TLabelStyle.lsHyperLink:
+      begin
+        FontColor := TAlphaColorRec.Blue;
+        Font.Style := Font.Style + [TFontStyle.fsUnderline];
+        Cursor := crHandPoint;
+      end;
   end;
 end;
 
