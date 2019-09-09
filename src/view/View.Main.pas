@@ -6,8 +6,8 @@ uses
   System.SysUtils, System.UITypes, System.Classes, FMX.Types, FMX.Controls, FMX.Forms, System.Rtti,
   FMX.Grid, FMX.ScrollBox, FMX.StdCtrls, FMX.Controls.Presentation, FMX.TabControl, Winapi.Windows,
   Helper.FMX, Util.Methods, Data.DB, System.Actions, FMX.ActnList, DataSnap.DBClient, FMX.Layouts,
-  FMX.ListBox, FMX.Edit, FMX.Memo, Util.XMLExporter, FMX.Menus, FMX.Grid.Style, FMX.Dialogs,
-  System.RegularExpressions, FMX.DialogService, Winapi.UrlMon;
+  FMX.ListBox, FMX.Edit, FMX.Memo, Util.XMLExporter, FMX.Menus, FMX.Dialogs,
+  System.RegularExpressions, FMX.DialogService, Winapi.UrlMon, FMX.Grid.Style;
 
 type
   TMain = class(TForm)
@@ -114,7 +114,12 @@ begin
         TDialogService.MessageDialog(TreatMessage(Exception), TMsgDlgType.mtWarning, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, -1, nil);
       end;
 
-      on E: Exception do
+      on Exception: ENotImplemented do
+      begin
+        TDialogService.MessageDialog(Exception.Message + ' Open a issue in github.', TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, -1, nil);
+      end;
+
+      on Exception: Exception do
       begin
         TDialogService.MessageDialog('Unknown error. Open a issue in github.', TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, -1, nil);
       end;
@@ -197,11 +202,11 @@ begin
   Exporter := TXMLExporter.Create;
   try
     GridData.ToDataSet(FDataSet);
-    Exporter.Constant := EditConstant.Text;
-    Exporter.Fields := ListBoxFields.CheckedItems;
-    Exporter.DataSet := FDataSet;
 
-    MemoXML.Lines.Text := Exporter.Export;
+    MemoXML.Lines.Text := Exporter.AddConstant(EditConstant.Text)
+                                  .AddFields(ListBoxFields.CheckedItems)
+                                  .AddDataSet(FDataSet)
+                                  .ToString;
   finally
     Exporter.Free;
   end;
@@ -278,18 +283,18 @@ end;
 
 procedure TMain.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
 var
-  ActiveGrid: TStringGrid;
+  Grid: TStringGrid;
 begin
   if ssCtrl in Shift then
   begin
-    ActiveGrid := GetActiveGrid;
+    Grid := GetActiveGrid;
 
-    if not Assigned(ActiveGrid) then
+    if not Assigned(Grid) then
       Exit;
 
     case Key of
-      vkInsert: ActiveGrid.Append;
-      vkDelete: ActiveGrid.Delete;
+      vkInsert: Grid.Append;
+      vkDelete: Grid.Delete;
     end;
   end;
 end;

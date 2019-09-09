@@ -3,28 +3,78 @@ unit Util.XMLExporter;
 interface
 
 uses
-  Data.DB, Datasnap.DBClient, System.Classes, System.SysUtils, XMLDoc, XMLIntf;
+  Data.DB, Datasnap.DBClient, System.Classes, System.SysUtils, System.UITypes, XMLDoc, XMLIntf;
 
 type
-  TXMLExporter = class
+  TXMLExporter = class sealed
   private
     FDataSet: TClientDataSet;
     FFields: TArray<string>;
     FConstant: string;
     function FormatXML: string;
-    procedure SetDataSet(const Value: TClientDataSet);
   public
     constructor Create;
     destructor Destroy; override;
-    function Export: string; overload;
-    property DataSet: TClientDataSet read FDataSet write SetDataSet;
-    property Constant: string read FConstant write FConstant;
-    property Fields: TArray<string> read FFields write FFields;
+    function AddFields(const Fields: TArray<string>): TXMLExporter;
+    function AddConstant(const Constant: string): TXMLExporter;
+    function AddDataSet(const DataSet: TClientDataSet): TXMLExporter;
+    function ToString: string; override;
   end;
 
 implementation
 
 { TXMLExporter }
+
+function TXMLExporter.AddConstant(const Constant: string): TXMLExporter;
+begin
+  FConstant := Constant;
+  Result := Self;
+end;
+
+function TXMLExporter.AddDataSet(const DataSet: TClientDataSet): TXMLExporter;
+var
+  Field: TFieldDef;
+  FieldName: string;
+begin
+  Result := Self;
+
+  if Length(FFields) = 0 then
+    Exit;
+
+  if Length(FFields) = DataSet.Fields.Count then
+  begin
+    FDataSet.Data := DataSet.Data;
+    Exit;
+  end;
+
+  for FieldName in FFields do
+  begin
+    Field := DataSet.FieldDefs.Find(FieldName);
+    FDataSet.FieldDefs.Add(Field.Name, Field.DataType, Field.Size, Field.Required);
+  end;
+
+  FDataSet.CreateDataSet;
+  FDataSet.LogChanges := False;
+
+  DataSet.First;
+  while not DataSet.Eof do
+  begin
+    FDataSet.Append;
+    for FieldName in FFields do
+    begin
+      FDataSet.FindField(FieldName).Assign(DataSet.FindField(FieldName));
+    end;
+    FDataSet.Post;
+
+    DataSet.Next;
+  end;
+end;
+
+function TXMLExporter.AddFields(const Fields: TArray<string>): TXMLExporter;
+begin
+  FFields := Fields;
+  Result := Self;
+end;
 
 constructor TXMLExporter.Create;
 begin
@@ -37,7 +87,7 @@ begin
   inherited Destroy;
 end;
 
-function TXMLExporter.Export: string;
+function TXMLExporter.ToString: string;
 begin
   Result := FormatXML;
 end;
@@ -45,70 +95,33 @@ end;
 function TXMLExporter.FormatXML: string;
 const
   Delimiter: array[Boolean] of string = ('+', ';');
-  Tab = #9;
+  FirstLine = 0;
+  Tab = Char(vkTab);
 var
-  Lines: TStringList;
-  Index: Integer;
   Eof: Boolean;
+  Line: Integer;
+  Lines: TStringList;
 begin
   Result := XmlDoc.FormatXMLData(FDataSet.XMLData);
 
-  if Constant.Trim.IsEmpty then
+  if FConstant.Trim.IsEmpty then
     Exit;
 
   Lines := TStringList.Create;
-
   try
     Lines.Text := Result;
 
-    for Index := 0 to Pred(Lines.Count) do
+    for Line := FirstLine to Pred(Lines.Count) do
     begin
-      Eof := Index = Pred(Lines.Count);
-      Lines.Strings[Index] := Tab + Lines.Strings[Index].QuotedString + Delimiter[Eof];
+      Eof := Line = Pred(Lines.Count);
+      Lines.Strings[Line] := Tab + Lines.Strings[Line].QuotedString + Delimiter[Eof];
     end;
 
-    Lines.Insert(0, Constant + ' =');
+    Lines.Insert(FirstLine, FConstant + ' = ');
 
     Result := Lines.Text;
   finally
     Lines.Free;
-  end;
-end;
-
-procedure TXMLExporter.SetDataSet(const Value: TClientDataSet);
-var
-  Field: TFieldDef;
-  Name: string;
-begin
-  if Length(Fields) = 0 then
-    Exit;
-
-  if Length(Fields) = Value.Fields.Count then
-  begin
-    FDataSet.Data := Value.Data;
-    Exit;
-  end;
-
-  for Name in FFields do
-  begin
-    Field := Value.FieldDefs.Find(Name);
-    FDataSet.FieldDefs.Add(Field.Name, Field.DataType, Field.Size, Field.Required);
-  end;
-
-  FDataSet.CreateDataSet;
-  FDataSet.LogChanges := False;
-
-  Value.First;
-  while not Value.Eof do
-  begin
-    FDataSet.Append;
-    for Name in FFields do
-    begin
-      FDataSet.FindField(Name).Assign(Value.FindField(Name));
-    end;
-    FDataSet.Post;
-
-    Value.Next;
   end;
 end;
 

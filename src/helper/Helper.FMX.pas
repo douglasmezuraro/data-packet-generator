@@ -4,7 +4,7 @@ interface
 
 uses
   FMX.Grid, FMX.ListBox, System.Classes, System.SysUtils, Data.DB, DataSnap.DBClient, System.Math,
-  FMX.StdCtrls, System.UITypes, FMX.Types;
+  FMX.StdCtrls, System.UITypes, FMX.Types, System.Rtti;
 
 type
   TColumnFactory = class sealed
@@ -54,6 +54,8 @@ implementation
 { TColumnFactory }
 
 class function TColumnFactory.Fabricate(const FieldDef: TFieldDef): TColumn;
+const
+  DATE_TIME_FORMAT = 'dd/MM/yyyy hh:mm:ss';
 var
   Column: TColumn;
 begin
@@ -67,11 +69,12 @@ begin
     ftDateTime :
       begin
         Column := TTimeColumn.Create(nil);
-        TTimeColumn(Column).Format := 'dd/MM/yyyy hh:mm:ss';
+        TTimeColumn(Column).Format := DATE_TIME_FORMAT;
         Column.Width := Max(Column.Width, Column.Width * 1.4);
       end
   else
-    raise ENotImplemented.Create('The column has been not implemented.');
+    raise ENotImplemented.CreateFmt('The column for the "%s" fieldtype has been not implemented.',
+      [TRttiEnumerationType.GetName<TFieldType>(FieldDef.DataType)]);
   end;
 
   Column.Header := FieldDef.Name;
