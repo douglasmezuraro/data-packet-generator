@@ -39,6 +39,7 @@ type
   public
     procedure CheckAll;
     procedure UncheckAll;
+    function IsFiltred(const Item: TListBoxItem): Boolean;
     property CheckedItems: TArray<string> read GetCheckedItems;
   end;
 
@@ -251,7 +252,8 @@ begin
     begin
       if Enumerator.Current is TListBoxItem then
       begin
-        (Enumerator.Current as TListBoxItem).IsChecked := Checked;
+        if not IsFiltred((Enumerator.Current as TListBoxItem)) then
+          (Enumerator.Current as TListBoxItem).IsChecked := Checked;
       end;
     end;
   finally
@@ -281,6 +283,24 @@ begin
   finally
     Enumerator.Free;
   end;
+end;
+
+function TListBoxHelper.IsFiltred(const Item: TListBoxItem): Boolean;
+var
+  Index: Integer;
+begin
+  Result := False;
+
+  if not Assigned(Item) then
+    Exit;
+
+  for Index := 0 to Pred((Content.Scrollbox as TListBox).Items.Count) do
+  begin
+    if Item.Equals((Content.Scrollbox as TListBox).ListItems[Index]) then
+      Exit;
+  end;
+
+  Result := True;
 end;
 
 { TLabelHelper }
