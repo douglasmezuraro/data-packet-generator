@@ -39,7 +39,7 @@ type
   public
     procedure CheckAll;
     procedure UncheckAll;
-    function IsFiltred(const Item: TListBoxItem): Boolean;
+    function VisibleBasedOnFilter(const Item: TListBoxItem): Boolean;
     property CheckedItems: TArray<string> read GetCheckedItems;
   end;
 
@@ -252,7 +252,7 @@ begin
     begin
       if Enumerator.Current is TListBoxItem then
       begin
-        if not IsFiltred((Enumerator.Current as TListBoxItem)) then
+        if VisibleBasedOnFilter((Enumerator.Current as TListBoxItem)) then
           (Enumerator.Current as TListBoxItem).IsChecked := Checked;
       end;
     end;
@@ -285,7 +285,7 @@ begin
   end;
 end;
 
-function TListBoxHelper.IsFiltred(const Item: TListBoxItem): Boolean;
+function TListBoxHelper.VisibleBasedOnFilter(const Item: TListBoxItem): Boolean;
 var
   Index: Integer;
 begin
@@ -297,10 +297,8 @@ begin
   for Index := 0 to Pred((Content.Scrollbox as TListBox).Items.Count) do
   begin
     if Item.Equals((Content.Scrollbox as TListBox).ListItems[Index]) then
-      Exit;
+      Exit(True);
   end;
-
-  Result := True;
 end;
 
 { TLabelHelper }

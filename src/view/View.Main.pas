@@ -10,7 +10,7 @@ uses
   System.RegularExpressions, FMX.DialogService, Winapi.UrlMon, FMX.Grid.Style;
 
 type
-  TMain = class(TForm)
+  TMain = class sealed(TForm)
     ActionCheckAll: TAction;
     ActionCopyToClipboard: TAction;
     ActionCreateData: TAction;
