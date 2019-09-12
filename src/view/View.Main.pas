@@ -145,6 +145,7 @@ end;
 
 procedure TMain.AfterDefineFields;
 begin
+  FDataSet.LogChanges := False;
   GridData.FromDataSet(FDataSet);
   ListBoxFields.Items.Clear;
   ListBoxFields.Items.AddStrings(GridData.Headers);
@@ -214,6 +215,7 @@ end;
 
 procedure TMain.FormShow(Sender: TObject);
 begin
+  Caption := string.Format('%s [%s]', [Application.Title, TMethods.GetVersion]);
   GridFields.Empty(False);
   ColumnFieldType.Items.AddStrings(TMethods.GetFieldTypes);
   TabControlView.ActiveTab := TabItemFields;

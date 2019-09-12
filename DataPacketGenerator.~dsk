@@ -1,45 +1,75 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.UITypes.pas',0,1,705,5,468,0,0,,
-File_1=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Edit.pas',0,1,1343,1,1372,0,0,,
-File_2=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Platform.Win.pas',0,1,2770,1,2797,0,0,,
-File_3=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\SOURCE\XML\Xml.XMLDoc.pas',0,1,629,23,635,0,0,,
-File_4=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\SOURCE\RTL\SYS\System.SysUtils.pas',0,1,21413,49,21459,0,0,,
-File_5=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Rtti.pas',0,1,281,3,240,0,0,,
-File_6=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\data\Data.DB.pas',0,1,31,48,64,0,0,,
-File_7=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Grid.pas',0,1,1401,30,1431,0,0,{{3882,0}
-File_8=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\win\Winapi.Windows.pas',0,1,22993,14,23020,0,0,,
-File_9=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Classes.pas',0,1,1012,10,779,0,0,,
+File_0=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\SOURCE\RTL\SYS\System.pas',0,1,1,1,12,0,0,,
+File_1=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.UITypes.pas',0,1,156,21,139,0,0,,
+File_2=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Edit.pas',0,1,1343,1,1372,0,0,,
+File_3=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Platform.Win.pas',0,1,2770,1,2797,0,0,,
+File_4=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\SOURCE\XML\Xml.XMLDoc.pas',0,1,629,23,635,0,0,,
+File_5=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\SOURCE\RTL\SYS\System.SysUtils.pas',0,1,21413,49,21459,0,0,,
+File_6=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Rtti.pas',0,1,281,3,240,0,0,,
+File_7=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\data\Data.DB.pas',0,1,31,48,64,0,0,,
+File_8=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Grid.pas',0,1,1401,30,1431,0,0,{{3882,0}
+File_9=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\win\Winapi.Windows.pas',0,1,22993,14,23020,0,0,,
 File_10=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Character.pas',0,1,332,13,401,0,0,,
 File_11=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.RTLConsts.pas',0,1,574,5,658,0,0,,
 File_12=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.DateUtils.pas',0,1,1,1,1,0,0,,
 
 [Modules]
-Module0=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\view\View.Main.pas
-Module1=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\util\Util.XMLExporter.pas
-Module2=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\helper\Helper.FMX.pas
-Module3=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\util\Util.Methods.pas
-Count=4
+Module0=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\helper\Helper.FMX.pas
+Module1=c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Classes.pas
+Module2=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\util\Util.XMLExporter.pas
+Module3=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\view\View.Main.pas
+Module4=c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.ListBox.pas
+Module5=c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Controls.pas
+Module6=c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Layouts.pas
+Module7=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\util\Util.Methods.pas
+Module8=default.htm
+Module9=documentation.htm
+Count=10
 EditWindowCount=1
 
-[C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\view\View.Main.pas]
+[C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\helper\Helper.FMX.pas]
+ModuleType=TSourceModule
+
+[c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Classes.pas]
 ModuleType=TSourceModule
 
 [C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\util\Util.XMLExporter.pas]
 ModuleType=TSourceModule
 
-[C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\helper\Helper.FMX.pas]
+[C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\view\View.Main.pas]
+ModuleType=TSourceModule
+
+[c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.ListBox.pas]
+ModuleType=TSourceModule
+
+[c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Controls.pas]
+ModuleType=TSourceModule
+
+[c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Layouts.pas]
 ModuleType=TSourceModule
 
 [C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\util\Util.Methods.pas]
 ModuleType=TSourceModule
 
+[default.htm]
+ModuleType=TURLModule
+
+[documentation.htm]
+ModuleType=TURLModule
+
 [EditWindow0]
-ViewCount=4
-CurrentEditView=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\view\View.Main.pas
+ViewCount=10
+CurrentEditView=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\helper\Helper.FMX.pas
 View0=0
 View1=1
 View2=2
 View3=3
+View4=4
+View5=5
+View6=6
+View7=7
+View8=8
+View9=9
 PercentageSizes=1
 Create=1
 Visible=1
@@ -47,11 +77,11 @@ Docked=1
 State=0
 Left=0
 Top=0
-Width=10021
+Width=10010
 Height=9231
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=10021
+ClientWidth=10010
 ClientHeight=9231
 DockedToMainForm=1
 BorlandEditorCodeExplorer=BorlandEditorCodeExplorer@EditWindow0
@@ -70,39 +100,91 @@ BottomMiddlePanelClients=DockSite0,GraphDrawingModel
 BottomMiddelPanelData=0000080001020200000009000000446F636B536974653010000000477261706844726177696E67566965779F1D00000000000002F206000000000000FFFFFFFF
 
 [View0]
+CustomEditViewType=TWelcomePageView
+WelcomePageURL=bds:/default.htm
+
+[View1]
+CustomEditViewType=TWelcomePageView
+WelcomePageURL=bds:/documentation.htm
+
+[View2]
 CustomEditViewType=TEditView
 Module=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\view\View.Main.pas
-CursorX=14
-CursorY=245
-TopLine=87
+CursorX=23
+CursorY=13
+TopLine=1
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\view\View.Main.pas
 
-[View1]
+[View3]
+CustomEditViewType=TEditView
+Module=c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.ListBox.pas
+CursorX=23
+CursorY=484
+TopLine=439
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.ListBox.pas
+
+[View4]
+CustomEditViewType=TEditView
+Module=c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Layouts.pas
+CursorX=1
+CursorY=2249
+TopLine=2219
+LeftCol=1
+Elisions={{1351,4},{1361,15},{'size'}}{{1362,4},{1372,15},{'vert align'}}{{1373,4},{1385,15},{'horz align'}}
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Layouts.pas
+
+[View5]
+CustomEditViewType=TEditView
+Module=c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Controls.pas
+CursorX=1
+CursorY=3830
+TopLine=3796
+LeftCol=1
+Elisions={{7003,0},{7265,11},{'TTextSettingsInfo'}}{{7005,0},{7031,11},{'Helper classes'}}{{7918,0},{8066,11},{'TPopupList'}}
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\19.0\source\fmx\FMX.Controls.pas
+
+[View6]
 CustomEditViewType=TEditView
 Module=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\util\Util.XMLExporter.pas
-CursorX=63
-CursorY=43
-TopLine=17
+CursorX=14
+CursorY=103
+TopLine=94
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\util\Util.XMLExporter.pas
 
-[View2]
+[View7]
+CustomEditViewType=TEditView
+Module=c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Classes.pas
+CursorX=41
+CursorY=1861
+TopLine=1822
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Classes.pas
+
+[View8]
 CustomEditViewType=TEditView
 Module=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\helper\Helper.FMX.pas
 CursorX=22
-CursorY=297
-TopLine=250
+CursorY=315
+TopLine=67
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\helper\Helper.FMX.pas
 
-[View3]
+[View9]
 CustomEditViewType=TEditView
 Module=C:\Users\douglas.mezuraro\Documents\DataPacketGenerator\data-packet-generator\src\util\Util.Methods.pas
 CursorX=38
@@ -118,10 +200,10 @@ Count=0
 
 [Watches]
 Count=4
-Watch0='E.CLassname',256,0,18,1,1,'Watches',1
-Watch1='LMessage',256,0,18,1,0,'Watches',1
-Watch2='StrToIntDef(GridFields.Cells[ColumnFieldSize.Index, Index], FieldDef.Size)',256,0,18,1,1,'Watches',1
-Watch3='Exception.Message',256,0,18,1,0,'Watches',1
+Watch0='TListBoxItem(Enumerator.Current).TExt',256,0,18,1,0,'Watches',1
+Watch1='TListBoxItem(Enumerator.Current)',256,0,18,1,0,'Watches',1
+Watch2='TListBox(Self.Content.Scrollbox).items.count',256,0,18,1,1,'Watches',1
+Watch3='Enumerator.Current.Classtype',256,0,18,1,1,'Watches',1
 
 [WatchWindow]
 WatchColumnWidth=120
@@ -164,7 +246,7 @@ MaxLeft=-5
 MaxTop=-10
 MaxWidth=8932
 MaxHeight=8519
-ClientWidth=10021
+ClientWidth=10010
 ClientHeight=9808
 BottomPanelSize=8889
 BottomPanelClients=EditWindow0

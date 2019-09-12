@@ -16,11 +16,12 @@ var
 
 begin
   Application.Initialize;
+  Application.Title := 'DataPacket Generator';
   Application.CreateForm(TMain, Main);
   Application.Run;
 
   {$WARN SYMBOL_PLATFORM OFF}
-  ReportMemoryLeaksOnShutdown := DebugHook > 0;
+  ReportMemoryLeaksOnShutdown := WordBool(DebugHook);
   {$WARN SYMBOL_PLATFORM ON}
 end.
 
