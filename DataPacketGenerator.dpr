@@ -8,7 +8,8 @@ uses
   Helper.FMX in 'src\helper\Helper.FMX.pas',
   Types.XMLExporter in 'src\Types\Types.XMLExporter.pas',
   Types.Dialogs in 'src\Types\Types.Dialogs.pas',
-  Types.Utils in 'src\Types\Types.Utils.pas';
+  Types.Utils in 'src\Types\Types.Utils.pas',
+  Helper.ClientDataSet in 'src\helper\Helper.ClientDataSet.pas';
 
 {$R *.res}
 

@@ -22,11 +22,14 @@
     <Transaction>2020/03/05 15:26:24.354,C:\Users\douglas.mezuraro\Documents\data-packet-generator\src\Types\Types.Utils.pas=C:\Users\douglas.mezuraro\Documents\data-packet-generator\Unit1.pas</Transaction>
     <Transaction>2020/03/05 15:30:59.468,C:\Users\douglas.mezuraro\Documents\data-packet-generator\src\util\Util.Methods.pas=</Transaction>
     <Transaction>2020/03/05 15:31:51.802,C:\Users\douglas.mezuraro\Documents\data-packet-generator\src\Types\Types.XMLExporter.pas=C:\Users\douglas.mezuraro\Documents\data-packet-generator\src\util\Util.XMLExporter.pas</Transaction>
+    <Transaction>2020/03/05 15:33:14.293,=C:\Users\douglas.mezuraro\Documents\data-packet-generator\Unit1.pas</Transaction>
+    <Transaction>2020/03/05 15:33:36.206,C:\Users\douglas.mezuraro\Documents\data-packet-generator\src\helper\Helper.ClientDataSet.pas=C:\Users\douglas.mezuraro\Documents\data-packet-generator\Unit1.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="src"/>
     <File Path="src\helper"/>
     <File Path="src\helper\Helper.FMX.pas"/>
+    <File Path="src\helper\Helper.ClientDataSet.pas"/>
     <File Path="src\Types"/>
     <File Path="src\Types\Types.Dialogs.pas"/>
     <File Path="src\Types\Types.Utils.pas"/>

@@ -61,18 +61,33 @@ type
     procedure LabelGitHubLinkMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
     procedure LabelGitHubLinkMouseLeave(Sender: TObject);
     procedure LabelGitHubLinkClick(Sender: TObject);
-  private
+  strict private
     FDataSet: TClientDataSet;
+    function GetActiveGrid: TStringGrid;
+    function GetFilter: string;
+    procedure SetFilter(const Value: string);
+    function GetConstant: string;
+    procedure SetConstant(const Value: string);
+    function GetXML: string;
+    procedure SetXML(const Value: string);
+    function GetFields: TArray<string>;
+    procedure SetFields(const Value: TArray<string>);
+  private
     procedure CreateDataSet;
     procedure Export;
     procedure Import;
     procedure CopyToClipboard;
     procedure AfterDefineFields;
-    function TreatMessage(const Exception: EDatabaseError): string;
-    function GetActiveGrid: TStringGrid;
+    function TreatMessage(const Exception: Exception): string;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+  public
+    property Filter: string read GetFilter write SetFilter;
+    property Constant: string read GetConstant write SetConstant;
+    property XML: string read GetXML write SetXML;
+    property Fields: TArray<string> read GetFields write SetFields;
+    property ActiveGrid: TStringGrid read GetActiveGrid;
   end;
 
 implementation
@@ -103,26 +118,16 @@ end;
 
 procedure TMain.ActionCreateDataExecute(Sender: TObject);
 begin
-  if not GridFields.IsEmpty then
-  begin
-    try
-      CreateDataSet;
-      AfterDefineFields;
-    except
-      on Exception: EDatabaseError do
-      begin
-        TDialogService.MessageDialog(TreatMessage(Exception), TMsgDlgType.mtWarning, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, -1, nil);
-      end;
+  if GridFields.IsEmpty then
+    Exit;
 
-      on Exception: ENotImplemented do
-      begin
-        TDialogService.MessageDialog(Exception.Message + ' Open a issue in github.', TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, -1, nil);
-      end;
-
-      on Exception: Exception do
-      begin
-        TDialogService.MessageDialog('Unknown error. Open a issue in github.', TMsgDlgType.mtError, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, -1, nil);
-      end;
+  try
+    CreateDataSet;
+    AfterDefineFields;
+  except
+    on E: Exception do
+    begin
+      TDialogs.Warning(TreatMessage(E));
     end;
   end;
 end;
@@ -147,9 +152,7 @@ procedure TMain.AfterDefineFields;
 begin
   FDataSet.LogChanges := False;
   GridData.FromDataSet(FDataSet);
-  ListBoxFields.Items.Clear;
-  ListBoxFields.Items.AddStrings(GridData.Headers);
-  ListBoxFields.CheckAll;
+  Fields := GridData.Headers;
   TabControlView.Next;
 end;
 
@@ -178,21 +181,14 @@ begin
   end;
 
   FDataSet.CreateDataSet;
-  FDataSet.LogChanges := False;
 end;
 
 procedure TMain.EditFilterChangeTracking(Sender: TObject);
-var
-  Text: string;
-  RegEx: TRegEx;
 begin
-  Text := (Sender as TEdit).Text.Trim;
-
-  RegEx := TRegEx.Create(Text, [roIgnoreCase]);
   ListBoxFields.FilterPredicate := TPredicate<string>(
-    function(const Filter: string): Boolean
+    function(const AFilter: string): Boolean
     begin
-      Result := Text.IsEmpty or RegEx.IsMatch(Filter);
+      Result := Filter.IsEmpty or TRegEx.Create(Filter, [roIgnoreCase]).IsMatch(AFilter);
     end);
 end;
 
@@ -204,10 +200,10 @@ begin
   try
     GridData.ToDataSet(FDataSet);
 
-    MemoXML.Lines.Text := Exporter.AddConstant(EditConstant.Text)
-                                  .AddFields(ListBoxFields.CheckedItems)
-                                  .AddDataSet(FDataSet)
-                                  .ToString;
+    XML := Exporter.AddConstant(Constant)
+                   .AddFields(Fields)
+                   .AddDataSet(FDataSet)
+                   .ToString;
   finally
     Exporter.Free;
   end;
@@ -230,6 +226,26 @@ begin
     Exit(GridData);
 
   Result := nil;
+end;
+
+function TMain.GetConstant: string;
+begin
+  Result := EditConstant.Text.Trim;
+end;
+
+function TMain.GetFields: TArray<string>;
+begin
+  Result := ListBoxFields.CheckedItems;
+end;
+
+function TMain.GetFilter: string;
+begin
+  Result := EditFilter.Text.Trim;
+end;
+
+function TMain.GetXML: string;
+begin
+  Result := MemoXML.Lines.Text;
 end;
 
 procedure TMain.Import;
@@ -258,37 +274,62 @@ begin
   (Sender as TLabel).SetStyle(TLabel.TLabelStyle.lsHyperLink);
 end;
 
-function TMain.TreatMessage(const Exception: EDatabaseError): string;
+procedure TMain.SetConstant(const Value: string);
+begin
+  EditConstant.Text := Value.Trim;
+end;
+
+procedure TMain.SetFields(const Value: TArray<string>);
+begin
+  ListBoxFields.Items.Clear;
+  ListBoxFields.Items.AddStrings(Value);
+  ListBoxFields.CheckAll;
+end;
+
+procedure TMain.SetFilter(const Value: string);
+begin
+  EditFilter.Text := Value.Trim;
+end;
+
+procedure TMain.SetXML(const Value: string);
+begin
+  MemoXML.Lines.Clear;
+  MemoXML.Lines.Text := Value;
+end;
+
+function TMain.TreatMessage(const Exception: Exception): string;
 begin
   if not Assigned(Exception) then
     Exit('Undefined error.');
 
-  if Exception.Message.Equals('Invalid field type.') then
-    Exit('You must define a type for each of the fields.');
+  if Exception is EDatabaseError then
+  begin
+    if Exception.Message.Equals('Invalid field type.') then
+      Exit('You must define a type for each of the fields.');
 
-  if Exception.Message.Equals('Invalid field size') then
-    Exit('Only "ftString" needs to set size property, which must be positive.');
+    if Exception.Message.Equals('Invalid field size') then
+      Exit('Only "ftString" needs to set size property, which must be positive.');
 
-  if Exception.Message.Contains('Duplicate name') then
-    Exit(Format('%s. The field name must be unique.', [Exception.Message]));
+    if Exception.Message.Contains('Duplicate name') then
+      Exit(Format('%s. The field name must be unique.', [Exception.Message]));
+  end;
 
-  Result := Exception.Message;
+  if Exception is ENotImplemented  then
+    Exit(Exception.Message + ' Open a issue in github.');
+
+  Result := 'Unknown error. Open a issue in github.';
 end;
 
 procedure TMain.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
-var
-  Grid: TStringGrid;
 begin
   if ssCtrl in Shift then
   begin
-    Grid := GetActiveGrid;
-
-    if not Assigned(Grid) then
+    if not Assigned(ActiveGrid) then
       Exit;
 
     case Key of
-      vkInsert: Grid.Append;
-      vkDelete: Grid.Delete;
+      vkInsert: ActiveGrid.Append;
+      vkDelete: ActiveGrid.Delete;
     end;
   end;
 end;
