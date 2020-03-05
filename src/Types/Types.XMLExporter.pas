@@ -1,9 +1,16 @@
-unit Util.XMLExporter;
+unit Types.XMLExporter;
 
 interface
 
 uses
-  Data.DB, Datasnap.DBClient, System.Classes, System.SysUtils, System.UITypes, XMLDoc, XMLIntf;
+  Data.DB,
+  Datasnap.DBClient,
+  Helper.ClientDataSet,
+  System.Classes,
+  System.SysUtils,
+  System.UITypes,
+  XMLDoc,
+  XMLIntf;
 
 type
   TXMLExporter = class sealed
@@ -23,8 +30,6 @@ type
 
 implementation
 
-{ TXMLExporter }
-
 function TXMLExporter.AddConstant(const Constant: string): TXMLExporter;
 begin
   FConstant := Constant;
@@ -33,12 +38,11 @@ end;
 
 function TXMLExporter.AddDataSet(const DataSet: TClientDataSet): TXMLExporter;
 var
-  Field: TFieldDef;
-  FieldName: string;
+  Field: string;
 begin
   Result := Self;
 
-  if Length(FFields) = 0 then
+  if FFields = nil then
     Exit;
 
   if Length(FFields) = DataSet.Fields.Count then
@@ -47,27 +51,26 @@ begin
     Exit;
   end;
 
-  for FieldName in FFields do
+  for Field in FFields do
   begin
-    Field := DataSet.FieldDefs.Find(FieldName);
-    FDataSet.FieldDefs.Add(Field.Name, Field.DataType, Field.Size, Field.Required);
+    FDataSet.FieldDefs.AddFieldDef.Assign(DataSet.FieldDefs.Find(Field));
   end;
 
   FDataSet.CreateDataSet;
   FDataSet.LogChanges := False;
 
-  DataSet.First;
-  while not DataSet.Eof do
-  begin
-    FDataSet.Append;
-    for FieldName in FFields do
+  DataSet.ForEach(
+    procedure
+    var
+      Field: string;
     begin
-      FDataSet.FindField(FieldName).Assign(DataSet.FindField(FieldName));
-    end;
-    FDataSet.Post;
-
-    DataSet.Next;
-  end;
+      FDataSet.Append;
+      for Field in FFields do
+      begin
+        FDataSet.FindField(Field).Assign(DataSet.FindField(Field));
+      end;
+      FDataSet.Post;
+    end);
 end;
 
 function TXMLExporter.AddFields(const Fields: TArray<string>): TXMLExporter;

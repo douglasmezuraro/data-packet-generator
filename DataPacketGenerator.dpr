@@ -6,8 +6,9 @@ uses
   FMX.Forms,
   View.Main in 'src\view\View.Main.pas' {Main},
   Helper.FMX in 'src\helper\Helper.FMX.pas',
-  Util.Methods in 'src\util\Util.Methods.pas',
-  Util.XMLExporter in 'src\util\Util.XMLExporter.pas';
+  Types.XMLExporter in 'src\Types\Types.XMLExporter.pas',
+  Types.Dialogs in 'src\Types\Types.Dialogs.pas',
+  Types.Utils in 'src\Types\Types.Utils.pas';
 
 {$R *.res}
 

@@ -1,27 +1,28 @@
-unit Util.Methods;
+unit Types.Utils;
 
 interface
 
 uses
-  System.SysUtils, WinApi.Windows;
+  System.SysUtils,
+  Winapi.UrlMon,
+  WinApi.Windows;
 
 type
-  TMethods = class sealed
+  TUtils = class sealed
   public
+    class procedure OpenURL(const URL: string);
     class function GetFieldTypes: TArray<string>;
     class function GetVersion: string;
   end;
 
 implementation
 
-{ TMethods }
-
-class function TMethods.GetFieldTypes: TArray<string>;
+class function TUtils.GetFieldTypes: TArray<string>;
 begin
   Result := ['ftString', 'ftInteger', 'ftBoolean', 'ftFloat', 'ftDate', 'ftTime', 'ftDateTime'];
 end;
 
-class function TMethods.GetVersion: string;
+class function TUtils.GetVersion: string;
 var
   Exe: string;
   Size, Handle: DWORD;
@@ -51,5 +52,9 @@ begin
     LongRec(FixedPtr.dwFileVersionLS).Lo]) { Build }
 end;
 
-end.
+class procedure TUtils.OpenURL(const URL: string);
+begin
+  HlinkNavigateString(nil, PWideChar(URL));
+end;
 
+end.

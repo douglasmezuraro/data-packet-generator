@@ -5,9 +5,9 @@ interface
 uses
   System.SysUtils, System.UITypes, System.Classes, FMX.Types, FMX.Controls, FMX.Forms, System.Rtti,
   FMX.Grid, FMX.ScrollBox, FMX.StdCtrls, FMX.Controls.Presentation, FMX.TabControl, Winapi.Windows,
-  Helper.FMX, Util.Methods, Data.DB, System.Actions, FMX.ActnList, DataSnap.DBClient, FMX.Layouts,
-  FMX.ListBox, FMX.Edit, FMX.Memo, Util.XMLExporter, FMX.Menus, FMX.Dialogs,
-  System.RegularExpressions, FMX.DialogService, Winapi.UrlMon, FMX.Grid.Style;
+  Helper.FMX, Data.DB, System.Actions, FMX.ActnList, DataSnap.DBClient, FMX.Layouts,
+  FMX.ListBox, FMX.Edit, FMX.Memo, FMX.Menus, FMX.Dialogs,
+  System.RegularExpressions, FMX.DialogService, FMX.Grid.Style, Types.Dialogs, Types.Utils, Types.XMLExporter;
 
 type
   TMain = class sealed(TForm)
@@ -215,9 +215,9 @@ end;
 
 procedure TMain.FormShow(Sender: TObject);
 begin
-  Caption := string.Format('%s [%s]', [Application.Title, TMethods.GetVersion]);
+  Caption := Format('%s [%s]', [Application.Title, TUtils.GetVersion]);
   GridFields.Empty(False);
-  ColumnFieldType.Items.AddStrings(TMethods.GetFieldTypes);
+  ColumnFieldType.Items.AddStrings(TUtils.GetFieldTypes);
   TabControlView.ActiveTab := TabItemFields;
 end;
 
@@ -234,26 +234,18 @@ end;
 
 procedure TMain.Import;
 var
-  Dialog: TOpenDialog;
+  FileName: string;
 begin
-  Dialog := TOpenDialog.Create(Self);
-  try
-    Dialog.Options := [TOpenOption.ofFileMustExist, TOpenOption.ofHideReadOnly];
-    Dialog.Filter := 'DAT File|*.dat|XML File|*.XML';
-
-    if Dialog.Execute then
-    begin
-      FDataSet.LoadFromFile(Dialog.FileName);
-      AfterDefineFields;
-    end;
-  finally
-    Dialog.Free;
+  if TDialogs.OpenFile(['XML', 'DAT'], FileName) then
+  begin
+    FDataSet.LoadFromFile(FileName);
+    AfterDefineFields;
   end;
 end;
 
 procedure TMain.LabelGitHubLinkClick(Sender: TObject);
 begin
-  HlinkNavigateString(nil, PWideChar((Sender as TLabel).Text));
+  TUtils.OpenURL((Sender as TLabel).Text);
 end;
 
 procedure TMain.LabelGitHubLinkMouseLeave(Sender: TObject);

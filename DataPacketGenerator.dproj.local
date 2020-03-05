@@ -3,27 +3,34 @@
 	<Transactions>
     <Transaction>2019/08/02 16:16:26.000.380,=C:\Users\douglas.mezuraro\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2019/08/20 16:25:18.000.332,=C:\Users\douglas.mezuraro\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2019/08/20 16:25:43.000.625,C:\Users\douglas.mezuraro\Documents\DPC\src\view\View.Main.fmx=C:\Users\douglas.mezuraro\Documents\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
-    <Transaction>2019/08/20 16:25:43.000.625,C:\Users\douglas.mezuraro\Documents\DPC\src\view\View.Main.pas=C:\Users\douglas.mezuraro\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2019/08/20 16:26:00.000.471,C:\Users\douglas.mezuraro\Documents\DPC\src\view\DataPacketGenerator.dproj=C:\Users\douglas.mezuraro\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2019/08/20 16:25:43.000.625,C:\Users\douglas.mezuraro\Documents\Embarcadero\Studio\Projects\Unit1.fmx=C:\Users\douglas.mezuraro\Documents\DPC\src\view\View.Main.fmx</Transaction>
+    <Transaction>2019/08/20 16:25:43.000.625,C:\Users\douglas.mezuraro\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\douglas.mezuraro\Documents\DPC\src\view\View.Main.pas</Transaction>
+    <Transaction>2019/08/20 16:26:00.000.471,C:\Users\douglas.mezuraro\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\douglas.mezuraro\Documents\DPC\src\view\DataPacketGenerator.dproj</Transaction>
     <Transaction>2019/08/20 16:26:59.000.248,=C:\Users\douglas.mezuraro\Documents\DPC\src\view\View.Main.pas</Transaction>
     <Transaction>2019/08/20 16:37:50.000.405,=C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas</Transaction>
-    <Transaction>2019/08/20 16:38:18.000.210,C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas=C:\Users\douglas.mezuraro\Documents\DPC\src\helper\Helper.StringGrid.pas</Transaction>
+    <Transaction>2019/08/20 16:38:18.000.210,C:\Users\douglas.mezuraro\Documents\DPC\src\helper\Helper.StringGrid.pas=C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas</Transaction>
     <Transaction>2019/08/20 17:43:24.000.270,=C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas</Transaction>
-    <Transaction>2019/08/20 17:43:44.000.003,C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas=C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.Methods.pas</Transaction>
+    <Transaction>2019/08/20 17:43:44.000.003,C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.Methods.pas=C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas</Transaction>
     <Transaction>2019/08/20 17:52:13.000.045,=C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas</Transaction>
-    <Transaction>2019/08/20 17:52:30.000.438,C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas=C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.Factory.Column.pas</Transaction>
+    <Transaction>2019/08/20 17:52:30.000.438,C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.Factory.Column.pas=C:\Users\douglas.mezuraro\Documents\DPC\Unit1.pas</Transaction>
     <Transaction>2019/08/21 14:56:36.000.135,=C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.XMLExporter.pas</Transaction>
-    <Transaction>2019/08/21 15:45:18.000.430,C:\Users\douglas.mezuraro\Documents\DPC\src\helper\Helper.StringGrid.pas=C:\Users\douglas.mezuraro\Documents\DPC\src\helper\Helper.FMX.pas</Transaction>
+    <Transaction>2019/08/21 15:45:18.000.430,C:\Users\douglas.mezuraro\Documents\DPC\src\helper\Helper.FMX.pas=C:\Users\douglas.mezuraro\Documents\DPC\src\helper\Helper.StringGrid.pas</Transaction>
     <Transaction>2019/08/21 17:38:13.000.422,C:\Users\douglas.mezuraro\Documents\DPC\src\util\Util.Factory.Column.pas=</Transaction>
+    <Transaction>2020/03/05 14:50:10.085,=C:\Users\douglas.mezuraro\Documents\data-packet-generator\Unit1.pas</Transaction>
+    <Transaction>2020/03/05 14:50:29.564,C:\Users\douglas.mezuraro\Documents\data-packet-generator\src\Types\Types.Dialogs.pas=C:\Users\douglas.mezuraro\Documents\data-packet-generator\Unit1.pas</Transaction>
+    <Transaction>2020/03/05 15:26:10.332,=C:\Users\douglas.mezuraro\Documents\data-packet-generator\Unit1.pas</Transaction>
+    <Transaction>2020/03/05 15:26:24.354,C:\Users\douglas.mezuraro\Documents\data-packet-generator\src\Types\Types.Utils.pas=C:\Users\douglas.mezuraro\Documents\data-packet-generator\Unit1.pas</Transaction>
+    <Transaction>2020/03/05 15:30:59.468,C:\Users\douglas.mezuraro\Documents\data-packet-generator\src\util\Util.Methods.pas=</Transaction>
+    <Transaction>2020/03/05 15:31:51.802,C:\Users\douglas.mezuraro\Documents\data-packet-generator\src\Types\Types.XMLExporter.pas=C:\Users\douglas.mezuraro\Documents\data-packet-generator\src\util\Util.XMLExporter.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="src"/>
     <File Path="src\helper"/>
     <File Path="src\helper\Helper.FMX.pas"/>
-    <File Path="src\util"/>
-    <File Path="src\util\Util.Methods.pas"/>
-    <File Path="src\util\Util.XMLExporter.pas"/>
+    <File Path="src\Types"/>
+    <File Path="src\Types\Types.Dialogs.pas"/>
+    <File Path="src\Types\Types.Utils.pas"/>
+    <File Path="src\Types\Types.XMLExporter.pas"/>
     <File Path="src\view"/>
     <File Path="src\view\View.Main.pas"/>
     <File Path="src\view\View.Main.fmx"/>
